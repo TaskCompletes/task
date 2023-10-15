@@ -1,0 +1,38 @@
+<?php
+namespace Drupal\rsvplist\Form;
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Form\UserPasswordForm;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class Resetform extends UserPasswordForm {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return "reset_form_password_page";
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildForm($form, $form_state);
+
+    // Check if form was just submitted
+    $form_values = $form_state->getValues();
+    if (isset($form_values['op'])) {
+      // Form was submitted, hide the email field and show the message.
+      $form['name']['#access'] = FALSE;
+      $form['actions']['submit']['#access'] = FALSE;
+
+      $form['reset_message'] = [
+        '#markup' => '<div class="reset-message">' . $this->t('An email has been sent to reset your password.') . '</div>',
+      ];
+    }
+
+    return $form;
+  }
+}
