@@ -1,0 +1,71 @@
+If you're working with the Drupal Form API to build your password reset form, you can still achieve the behavior of hiding the email input and changing the content to an email reset message based on the form submission. Here's how you can do it using Drupal's Form API:
+
+1. **Define a Custom Form using Form API**:
+
+   Start by defining your custom form using the Form API. In your custom module, you would typically have a function like this:
+
+   ```php
+   function mymodule_my_custom_form($form, &$form_state) {
+     // Define your form elements here.
+     $form['email'] = array(
+       '#type' => 'textfield',
+       '#title' => t('Email address'),
+     );
+     
+     $form['submit'] = array(
+       '#type' => 'submit',
+       '#value' => t('Submit'),
+       '#submit' => array('mymodule_custom_form_submit'),
+     );
+
+     // Add a custom element for the reset message.
+     $form['reset_message'] = array(
+       '#markup' => '<div class="reset-message">' . t('An email has been sent to reset your password.') . '</div>',
+     );
+
+     // Add the necessary form attributes.
+     $form['#attributes']['class'][] = 'custom-reset-form';
+
+     return $form;
+   }
+   ```
+
+2. **Form Submission Handler**:
+
+   Define a custom form submission handler to process the form submission and decide whether to show the reset message or not. In this handler, you can check if the email is valid and set a form state variable accordingly.
+
+   ```php
+   function mymodule_custom_form_submit($form, &$form_state) {
+     $email = $form_state['values']['email'];
+
+     // Validate the email (you may want to use a more thorough validation).
+     if (!valid_email_address($email)) {
+       form_set_error('email', t('Invalid email address.'));
+     }
+
+     if (form_get_errors()) {
+       // There are errors in the form, do nothing.
+     }
+     else {
+       // Email is valid, set a form state variable to indicate validation.
+       $form_state['yourmodule_email_validated'] = TRUE;
+     }
+   }
+   ```
+
+3. **Form Alter Hook**:
+
+   Alter the form to display the reset message and hide the email input field if the email is validated.
+
+   ```php
+   function mymodule_form_mymodule_my_custom_form_alter(&$form, &$form_state, $form_id) {
+     if (isset($form_state['yourmodule_email_validated']) && $form_state['yourmodule_email_validated']) {
+       // Hide the email input field.
+       $form['email']['#access'] = FALSE;
+       // Show the reset message.
+       $form['reset_message']['#markup'] = '<div class="reset-message">' . t('An email has been sent to reset your password.') . '</div>';
+     }
+   }
+   ```
+
+This code follows a similar logic as in the previous response but adapts it for use with the Form API. It allows you to hide the email input field and show the reset message after form submission without using JavaScript. You can customize it further to fit your specific requirements.
