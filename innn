@@ -1,0 +1,95 @@
+<?php
+namespace Drupal\rsvplist\Form;
+//use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Form\UserPasswordForm;
+use Drupal\Core\Url;
+use Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+class Resetform extends UserPasswordForm{
+    
+    public function getFormId()
+    {
+        return "reset_form_password_page";
+    }    
+
+     public function buildForm(array $form, FormStateInterface $form_state)
+     {
+        //var_dump($form_state);
+        try{
+        
+            if($form_state->isSubmitted()){
+                
+               // \Drupal::messenger()->addMessage("form submmiteed");
+                $form['email']['#access'] = FALSE;
+                return $form;
+            }
+            else{
+                ///\Drupal::messenger()->addMessage("fomr not submitte");
+                $form ['email'] =[
+                    '#type' => 'textfield',
+                    '#title' => $this->t('email address testing '),
+                    '#size' => 60,
+                   ];
+        
+                   $form['button_container'] = [
+                    '#type'=>'container',
+                    '#attributes'=>[
+                        'class'=>['button-container']
+                    ]
+                    ];
+                    $form['button_container']['submit_button'] = [
+                        "#type"=>'submit',
+                        "#value"=>$this->t("submit")
+                    ];
+        
+                    $form['button_container']['cancel_button'] = [
+                              '#type'=>'submit',
+                              '#value'=> $this->t("cancel"),
+                              "#submit"=>['::cancelButtonSubmit']
+                    ];
+        
+                     return $form;
+            }
+           
+        }
+        catch(\Exception $e){
+
+            echo $e->getMessage();
+        }
+        
+     }
+    public function validateForm(array &$form, FormStateInterface $form_state)
+    {
+        
+    
+            $email = $form_state->getValue('email'); 
+            if(str_contains($email,"'")){
+    
+                $form_state->setErrorByName($email,"legislation.gov.uk Publishing cannot acceptemail address");
+            }
+            elseif(!\Drupal::service('email.validator')->isValid($email)){
+                $form_state->setErrorByName($email,"not valid email");
+            }
+            
+    }
+
+    public function submitForm(array &$form, FormStateInterface $form_state)
+    {
+      
+      try{
+        $url = Url::fromUri("internal:/user/users");
+        $path = $url->toString();
+        $response = new RedirectResponse($path);
+        $response->send();
+      }
+      catch(Exception $e)
+      {
+          \Drupal::messenger()->addMessage("user not availablr");
+          return;
+      }
+        
+    }
+        
+    
+}
