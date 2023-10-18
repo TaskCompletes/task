@@ -1,0 +1,5 @@
+<h4>if you have forgotten password please enter your email address below and <br>
+               you will be sent instructions on how to create a new password.<br><br><h4>
+        Please don’t use inline HTML markup if it can be helped. This text doesn’t need to be a <h4> element, it just needs a class to make it bold.
+
+Please don’t use <br> elements for padding or for breaking lines unless absolutely required. Let the CSS work out the positioning and padding.       
