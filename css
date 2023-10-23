@@ -1,45 +1,45 @@
-input#edit-email {
-    width: 210px;
-    padding: 5px 3px;
+<?php
+
+function example_cron(){
+    \Drupal::messenger()->addMessage("hii thi sis from cron");
 }
 
-.field-container {
-    width: fit-content;
-    padding: 17px 10px;
+function example_element_info_alter(array &$types) {
+       if(isset($types['password_confirm']))
+       {
+             \Drupal::messenger()->addMessage(" from password_confirm");
+             $types['password_confirm']['#process'][] = 'user_form_process_password';
+       }
 }
+function user_form_process_password($element){
+    $password_settings = [
+    'confirmTitle' => t('Passwords match:'),
+    'confirmSuccess' => t('yes'),
+    'confirmFailure' => t('no'),
+    'showStrengthIndicator' => FALSE,
+  ];
 
-.button-container {
-    display: inline-flex;
-    justify-content: space-between;
-    background-color: $white;
-    border: 0px;
-    width: 63%;
-}
+  if (\Drupal::config('user.settings')->get('password_strength')) {
+    $password_settings['showStrengthIndicator'] = TRUE;
+    $password_settings += [
+      'strengthTitle' => t('Password strength:'),
+      'hasWeaknesses' => t('Recommendations to make your password stronger:'),
+      'tooShort' => t('Make it at least 12 characters'),
+      'addLowerCase' => t('Add lowercase letters a-z'),
+      'addUpperCase' => t('Add uppercase letters A-Z'),
+      'addNumbers' => t('Add numbers0-9'),
+      'addPunctuation' => t('Add punctuation any special characters'),
+      'sameAsUsername' => t('Make it different from your username'),
+      'weak' => t('Weak'),
+      'fair' => t('Fair'),
+      'good' => t('Good'),
+      'strong' => t('Strong'),
+      'username' => \Drupal::currentUser()->getAccountName(),
+    ];
+  }
 
-#block-tna-legislation-publishing-useraccount {
-    margin-bottom: 0;
-}
+  $element['#attached']['library'][] = 'user/drupal.user';
+  $element['#attached']['drupalSettings']['password'] = $password_settings;
 
-.cancel-button::before {
-    content: "";
-    width: 13px;
-    height: 26px;
-    background: url(/themes/custom/tna_legislation_publishing/images/buttons-sprites.gif)no-repeat ;
-    background-position: 0 -550px;
-}
-
-.request-password-button::after {
-    content: "";
-    width: 13px;
-    height: 12px;
-    margin-right: -12px;
-    margin-left: 1px;
-    background: url(/themes/custom/tna_legislation_publishing/images/buttons-sprites.gif) no-repeat ;
-    background-position: 100% -483px;
-}
-
-p.info {
-    width: max-content;
-    line-height: 1.4rem;
-    font-weight: 600;
+  return $element;
 }
