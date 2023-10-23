@@ -1,0 +1,20 @@
+function example_element_info_alter(array &$types) {
+  if (isset($types['password_confirm'])) {
+    // Remove the default password confirmation process callback.
+    $key = array_search('user_form_process_password', $types['password_confirm']['#process']);
+    if ($key !== false) {
+      unset($types['password_confirm']['#process'][$key]);
+    }
+
+    // Add your custom process callback.
+    $types['password_confirm']['#process'][] = 'example_custom_password_confirm_process';
+  }
+}
+
+function example_custom_password_confirm_process($element) {
+  // Your custom password validation logic here.
+  // You can set custom error messages using form_set_error() if the validation fails.
+
+  // Be sure to return the $element after processing.
+  return $element;
+}
