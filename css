@@ -1,0 +1,45 @@
+input#edit-email {
+    width: 210px;
+    padding: 5px 3px;
+}
+
+.field-container {
+    width: fit-content;
+    padding: 17px 10px;
+}
+
+.button-container {
+    display: inline-flex;
+    justify-content: space-between;
+    background-color: $white;
+    border: 0px;
+    width: 63%;
+}
+
+#block-tna-legislation-publishing-useraccount {
+    margin-bottom: 0;
+}
+
+.cancel-button::before {
+    content: "";
+    width: 13px;
+    height: 26px;
+    background: url(/themes/custom/tna_legislation_publishing/images/buttons-sprites.gif)no-repeat ;
+    background-position: 0 -550px;
+}
+
+.request-password-button::after {
+    content: "";
+    width: 13px;
+    height: 12px;
+    margin-right: -12px;
+    margin-left: 1px;
+    background: url(/themes/custom/tna_legislation_publishing/images/buttons-sprites.gif) no-repeat ;
+    background-position: 100% -483px;
+}
+
+p.info {
+    width: max-content;
+    line-height: 1.4rem;
+    font-weight: 600;
+}
