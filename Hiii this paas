@@ -1,20 +1,30 @@
-function example_element_info_alter(array &$types) {
-  if (isset($types['password_confirm'])) {
-    // Remove the default password confirmation process callback.
-    $key = array_search('user_form_process_password', $types['password_confirm']['#process']);
-    if ($key !== false) {
-      unset($types['password_confirm']['#process'][$key]);
-    }
+<?php
 
-    // Add your custom process callback.
-    $types['password_confirm']['#process'][] = 'example_custom_password_confirm_process';
-  }
+function example_cron(){
+    \Drupal::messenger()->addMessage("hii thi sis from cron");
 }
 
-function example_custom_password_confirm_process($element) {
-  // Your custom password validation logic here.
-  // You can set custom error messages using form_set_error() if the validation fails.
+function example_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
 
-  // Be sure to return the $element after processing.
+          if($form_id === "reset_form_password_page"){
+            /**\Drupal::messenger()->addMessage("form find successfully");
+            if(isset($form["passwordconfirm"])){
+              \Drupal::messenger()->addMessage("inside password confirm");
+                    $form["passwordconfirm"]["#process"]=array(
+                    
+                    "user_form_process_password_confirm",
+                    "example_form_process_password_confirm");}*/
+            //$element_info = element_info('passwordconfirm');
+  //$process = $element_info['#process'];
+  // Add our process function to the array:
+  //$process[] = 'example_process_password_confirm';
+  //$form['passwordconfirm']['#process'] = $process;
+              
+          }
+
+}
+function example_form_process_password_confirm($element) {
+  \Drupal::messenger()->addMessage(" inside password confirm");
+  $element['passwordconfirm']['#title'] = "password match or  not";
   return $element;
 }
