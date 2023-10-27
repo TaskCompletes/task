@@ -1,30 +1,22 @@
-<?php
-
-function example_cron(){
-    \Drupal::messenger()->addMessage("hii thi sis from cron");
-}
-
-function example_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-
-          if($form_id === "reset_form_password_page"){
-            /**\Drupal::messenger()->addMessage("form find successfully");
-            if(isset($form["passwordconfirm"])){
-              \Drupal::messenger()->addMessage("inside password confirm");
-                    $form["passwordconfirm"]["#process"]=array(
-                    
-                    "user_form_process_password_confirm",
-                    "example_form_process_password_confirm");}*/
-            //$element_info = element_info('passwordconfirm');
-  //$process = $element_info['#process'];
-  // Add our process function to the array:
-  //$process[] = 'example_process_password_confirm';
-  //$form['passwordconfirm']['#process'] = $process;
-              
-          }
-
-}
-function example_form_process_password_confirm($element) {
-  \Drupal::messenger()->addMessage(" inside password confirm");
-  $element['passwordconfirm']['#title'] = "password match or  not";
-  return $element;
-}
+js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:59 Uncaught TypeError: $(...).once is not a function
+    at Object.attach (js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:59:165)
+    at js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:22:427
+    at Array.forEach (<anonymous>)
+    at Drupal.attachBehaviors (js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:22:353)
+    at js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:23:373
+    at HTMLDocument.listener (js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:23:161)
+attach @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:59
+(anonymous) @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:22
+Drupal.attachBehaviors @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:22
+(anonymous) @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:23
+listener @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:23
+setTimeout (async)
+Drupal.throwError @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:22
+(anonymous) @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:22
+Drupal.attachBehaviors @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:22
+(anonymous) @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:23
+listener @ js_mJBZm8gpPUsJGZ5rbPCPO3EU7Q0-EFSyJjRbli7hwkU.js?scope=footer&delta=0&language=en&theme=example&include=eJx9UFFyAyEIvZDVM_Qo6DK7tioGsJPt6csmazppZ_IjAu_BeyRiDAuPDsV3ppVRxCVqilcdUGbrt_JWcvsUJ7so1hBB0OA2oxFXKPnb0gJMIQEvEwVLze2sr4WiTRHdbdB6555LIGn-wtsCh1eovWA4oxuCPHHH_4m4ZOkFEjolKhE4nPEfy2czInduNkfcrCEb9g1NrdI4qIMf6h6Vaep4_cdlIO9-5CcRCjEap0KD9abvxQ2nPtmINQ2dkJn_NeJREnR8P-74AwwVqLs:23
+rsvpforget:76 
+        
+        
+       GET http://localhost/drupal/demos/web/them
