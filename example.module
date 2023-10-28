@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @param $form
+ * @param FormStateInterface $form_state
+ * @param $form_id
+ */
+function example_form_alter(&$form, Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  /**
+   * Custom javascript for the search form
+   */
+  if($form_id === 'reset_form_password_page') {
+    \Drupal::messenger()->addMessage(" from validate inside form is");
+    $form['#attached']['library'][] = 'example/example';
+    \Drupal::messenger()->addMessage(" after for id");
+  }
+}
+
+
+/**
+* Implements hook_page_attachments_alter().
+*/
+/**function example_page_attachments_alter(array &$attachments) {
+  //if (in_array('user/drupal.user', $attachments['#attached']['library']))
+  //$attachments['#attached']['library'] = array_diff($attachments['#attached']['library'], ['user/drupal.user']);
+  //$attachments['#attached']['library'] = 'example/drupal.example';
+}**/
+function example_element_info_alter(array &$types) {
+  if (isset($types['password_confirm'])) {
+    $types['password_confirm']['#process'][] = 'example_form_process_password_confirm';
+  }
+}
+function example_form_process_password_confirm($element) {
+  \Drupal::messenger()->addMessage(" hiii this from password confirm");
+  $password_settings = [
+    'confirmTitle' => t('Passwords match:'),
+    'confirmSuccess' => t('yes'),
+    'confirmFailure' => t('no'),
+    'showStrengthIndicator' => FALSE,
+  ];
+$statusmessage = \Drupal::config('user.settings')->get('password_strength');
+\Drupal::messenger()->addMessage("hiii this from password_confirm 4");
+\Drupal::messenger()->addMessage($statusmessage."from statusmessage");
+  if (\Drupal::config('user.settings')->get('password_strength')) {
+    $password_settings['showStrengthIndicator'] = TRUE;
+    $password_settings += [
+      'strengthTitle' => t('Password strength info:'),
+      'hasWeaknesses' => t('Recommendations to make your password stronger:'),
+      'tooShort' => t('Make it at least 234 characters'),
+      'addLowerCase' => t('Add smalll letters'),
+      'addUpperCase' => t('Add capital letters'),
+      'addNumbers' => t('Add 0-9'),
+      'addPunctuation' => t('Add punctuation ,.;'),
+      'sameAsUsername' => t('Make it different from your username'),
+      'weak' => t('Weak'),
+      'fair' => t('Fair'),
+      'good' => t('Good'),
+      'strong' => t('Strong'),
+      'username' => \Drupal::currentUser()->getAccountName(),
+    ];
+  }
+  $element['#attached']['drupalSettings']['password'] = $password_settings;
+ //var_dump($element['#attached']);
+  return $element;
+}
