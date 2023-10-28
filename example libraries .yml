@@ -1,0 +1,10 @@
+example:
+  version: VERSION
+  js:
+    example.js: {}
+    example.theme.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+    
