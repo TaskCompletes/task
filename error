@@ -1,0 +1,89 @@
+Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:24 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:24:21)
+checkCriteria @ VM2364:24
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:24 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:24:21)
+checkCriteria @ VM2364:24
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:24 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:24:21)
+checkCriteria @ VM2364:24
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:32 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:32:21)
+checkCriteria @ VM2364:32
+20VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:32 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:32:21)
+checkCriteria @ VM2364:32
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:32 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:32:21)
+checkCriteria @ VM2364:32
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:32 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:32:21)
+checkCriteria @ VM2364:32
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:24 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:24:21)
+checkCriteria @ VM2364:24
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:20 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:20:21)
+checkCriteria @ VM2364:20
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:24 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:24:21)
+checkCriteria @ VM2364:24
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:32 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:32:21)
+checkCriteria @ VM2364:32
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:32 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:32:21)
+checkCriteria @ VM2364:32
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:32 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:32:21)
+checkCriteria @ VM2364:32
+21VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:24 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:24:21)
+checkCriteria @ VM2364:24
+VM2343:8 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLInputElement.checkCriteria (<anonymous>:8:61)
+checkCriteria @ VM2343:8
+VM2364:24 Uncaught TypeError: Cannot read properties of undefined (reading 'appendChild')
+    at HTMLInputElement.checkCriteria (<anonymous>:24:21)
