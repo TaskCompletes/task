@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Strength Checker</title>
+</head>
+<body>
+    <div class="password-suggestions">
+        Recommendations to make your password stronger:
+        <ul class="password-suggestions__tips">
+            <li class="password-suggestions__tip">Make it at least 8 characters</li>
+            <li class="password-suggestions__tip">Add small letters</li>
+            <li class="password-suggestions__tip">Add upper case</li>
+            <li class="password-suggestions__tip">Add 0-9</li>
+            <li class="password-suggestions__tip">Add punctuation ,.;</li>
+        </ul>
+    </div>
+    <input type="password" id="password-input" placeholder="Enter your password">
+
+    <script>
+        // Replace the text
+        document.querySelectorAll('.password-suggestions__tip').forEach(function(element) {
+            element.innerHTML = element.innerHTML.replace("Add upper case", "Add capital letters");
+        });
+
+        // Check if the criteria are satisfied and display a tick mark
+        function checkCriteria() {
+            var password = document.getElementById('password-input').value; // Get the user's password
+
+            var criteria = document.querySelectorAll('.password-suggestions__tip');
+            var tickMarks = document.createElement('span');
+            tickMarks.classList.add('tick-marks');
+
+            // Reset all the criteria elements to their original state (showing the message)
+            criteria.forEach(function(element) {
+                element.innerHTML = element.innerHTML.replace('<span class="tick-marks"></span>', '');
+            });
+
+            if (password.length >= 8) {
+                criteria[0].appendChild(tickMarks.cloneNode(true));
+            }
+
+            if (/[a-z]/.test(password)) {
+                criteria[1].appendChild(tickMarks.cloneNode(true));
+            }
+
+            if (/[A-Z]/.test(password)) {
+                criteria[2].appendChild(tickMarks.cloneNode(true));
+            }
+
+            if (/\d/.test(password)) {
+                criteria[3].appendChild(tickMarks.cloneNode(true));
+            }
+
+            if (/[,.;]/.test(password)) {
+                criteria[4].appendChild(tickMarks.cloneNode(true));
+            }
+        }
+
+        // Call checkCriteria when the user enters or changes the password
+        document.getElementById('password-input').addEventListener('input', checkCriteria);
+    </script>
+</body>
+</html>
