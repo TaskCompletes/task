@@ -1,47 +1,10 @@
-// Replace the text
-document.querySelectorAll('.password-suggestions__tip').forEach(function(element) {
-    element.innerHTML = element.innerHTML.replace("Add upper case", "Add capital letters");
-});
-
-// Check if the criteria are satisfied and display a tick mark
-function checkCriteria() {
-    var password = document.getElementById('password-input').value; // Get the user's password
-
-    var criteria = document.querySelectorAll('.password-suggestions__tip');
-    var tickMarks = document.createElement('span');
-    tickMarks.classList.add('tick-marks');
-
-    // Ensure criteria elements are available
-    if (criteria.length !== 5) {
-        console.error("Criteria elements not found.");
-        return;
-    }
-
-    // Reset all the criteria elements to their original state (showing the message)
-    criteria.forEach(function(element) {
-        element.innerHTML = element.innerHTML.replace('<span class="tick-marks"></span>', '');
-    });
-
-    if (password.length >= 8) {
-        criteria[0].appendChild(tickMarks.cloneNode(true));
-    }
-
-    if (/[a-z]/.test(password)) {
-        criteria[1].appendChild(tickMarks.cloneNode(true));
-    }
-
-    if (/[A-Z]/.test(password)) {
-        criteria[2].appendChild(tickMarks.cloneNode(true));
-    }
-
-    if (/\d/.test(password)) {
-        criteria[3].appendChild(tickMarks.cloneNode(true));
-    }
-
-    if (/[,.;]/.test(password)) {
-        criteria[4].appendChild(tickMarks.cloneNode(true));
-    }
-}
-
-// Call checkCriteria when the user enters or changes the password
-document.getElementById('password-input').addEventListener('input', checkCriteria);
+<div class="control password-parent">
+    <input class="password-field js-password-field form-text required input" autocomplete="new-password" data-drupal-selector="edit-passwordconfirm-pass1" type="password" id="edit-passwordconfirm-pass1" name="passwordconfirm[pass1]" size="60" maxlength="128" required="required" aria-required="true" data-once="password">
+    <div class="password-strength" style="
+    display: inline-block;
+    padding: 10px 10px;
+">
+        <div class="password-strength__meter" data-drupal-selector="password-strength-meter"><div class="password-strength__indicator is-weak" data-drupal-selector="password-strength-indicator" style="width: 24%;"></div></div>
+        <div aria-live="polite" aria-atomic="true" class="password-strength__title" style="
+">Password strength: <span class="password-strength__text" data-drupal-selector="password-strength-text">Weak</span></div>
+      </div></div>
