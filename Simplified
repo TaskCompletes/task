@@ -1,0 +1,25 @@
+function displayCriteriaMessages(hasLowercase, hasUppercase, hasNumbers, password) {
+  const good = "<span class='good'>good</span>";
+  const criteriaMessages = {
+    tooShort: { condition: password.length >= 7, message: 'Too Short' },
+    addLowerCase: { condition: hasLowercase, message: 'Add Lowercase' },
+    addUpperCase: { condition: hasUppercase, message: 'Add Uppercase' },
+    addNumbers: { condition: hasNumbers, message: 'Add Numbers' },
+  };
+
+  for (const key in criteriaMessages) {
+    const { condition, message } = criteriaMessages[key];
+
+    if (condition) {
+      criteriaMessages[key].message = message.includes(good)
+        ? message
+        : message.concat(good);
+    } else {
+      criteriaMessages[key].message = message.includes(good)
+        ? message.replace(good, "")
+        : message;
+    }
+  }
+
+  displaySuggestions(criteriaMessages);
+}
