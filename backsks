@@ -1,0 +1,22 @@
+
+below is the feedback for the below code i have written
+
+Please only use one sort of Dependency Injection if possible.
+
+Please make formBuilder a dependency added via the construct and create methods.
+
+
+public function checkToken(string $token) {
+
+    try {
+      $this->PasswordResetService->passwordResetServiceCheckToken($token);
+      return \Drupal::formBuilder()->getForm('\Drupal\example\Form\Password');
+    }
+    catch (ClientException $e) { 
+      $message = $e->getApiExceptionBody()->getMessage();
+      return errorMessage($message);
+    }
+     
+  }
+
+}
