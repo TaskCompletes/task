@@ -1,22 +1,108 @@
+<?php
 
-below is the feedback for the below code i have written
+namespace Drupal\tna_legislation_publishing_user\Controller;
 
-Please only use one sort of Dependency Injection if possible.
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\tna_legislation_publishing_client\Exception\ClientException;
+use Drupal\tna_legislation_publishing_user\Service\PasswordResetService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-Please make formBuilder a dependency added via the construct and create methods.
-
-
-public function checkToken(string $token) {
-
-    try {
-      $this->PasswordResetService->passwordResetServiceCheckToken($token);
-      return \Drupal::formBuilder()->getForm('\Drupal\example\Form\Password');
-    }
-    catch (ClientException $e) { 
-      $message = $e->getApiExceptionBody()->getMessage();
-      return errorMessage($message);
-    }
-     
+class PasswordResetController extends ControllerBase {
+  
+  protected $PasswordResetService;
+  public function __construct(
+    FormBuilderInterface $formBuilder,
+    PasswordResetService $PasswordResetService
+  ){
+      $this->PasswordResetService = $PasswordResetService;
+  }
+  /**
+   * Getting tna_legislation_publishin_user.password_reset_service 
+   * 
+   * for requesting API.
+   *
+   * @param ContainerInterface $container
+   * 
+   */
+  public static function create(ContainerInterface $container) {
+    return new static( 
+      $container->get("tna_legislation_publishing_user.password_reset_service")
+    );
   }
 
+  /**
+   * checkToken function checking token is active or not 
+   * 
+   * if active it will render form
+   * 
+   * else it will display error message
+   *
+   * @param string $token
+   * 
+   */
+
 }
+
+/**
+ * errorMessage will return appropriate error message.
+ *
+ * @param string $message
+ * 
+ * @return array
+ */
+function errorMessage(string $message) : array {
+   
+  if(str_contains($message,'The specified token has already been used')) {
+    
+    return [
+      "#title" => t("Unable to reset password"),
+      [
+        "#type" => "markup",
+        "#markup" => t("This link has already been used, please request a password reset again.")
+      ]
+    ];
+    
+  }
+  elseif (str_contains($message,"No password reset request found")) {
+     
+    return [
+      "#title" => t("Unable to reset password"),
+      [
+        "#type" => "markup",
+        "#markup" => t("This link is invalid, please request a password reset again.")
+      ]
+    ];
+    
+  }
+  elseif (str_contains($message,"The specified token is more than 3 days old")) {
+        
+    return [
+      "#title" => t("Unable to reset password"),
+      [
+        "#type" => "markup",
+        "#markup" => t("This link has expired, please request a password reset again.")
+      ]
+    ];
+    
+  }
+  else {
+
+    return [
+      "#title" => t("Unable to reset password"),
+      [
+        "#type" => "markup",
+        "#markup" => t("An unknown error occurred .)"
+      ]
+    ];
+  }
+  
+  
+}
+for the above code i got below feedback Please don’t add functions to OOP code for them to be called. Functions live on the global namespace, so this could lead to conflicts.
+
+If you require functionality to be shared between objects, please create a service with the appropriate method.
+
+This allows us to test and mock values, prevent namespace clashes, and to organise our code.
+
+
