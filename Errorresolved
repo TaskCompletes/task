@@ -1,0 +1,71 @@
+abstract class Employee {
+    abstract int getSalary();
+    abstract void setSalary(int salary);
+    abstract void setGrade(String grade);
+    abstract String getGrade();
+    
+    public void label() {
+        System.out.println("Employee Data:");
+        System.out.println("Grade: " + getGrade());
+        System.out.println("Salary: " + getSalary());
+    }
+}
+
+class Manager extends Employee {
+    private int salary;
+    private String grade;
+    
+    @Override
+    int getSalary() {
+        return salary;
+    }
+    
+    @Override
+    void setSalary(int salary) {
+        this.salary = salary;
+    }
+    
+    @Override
+    void setGrade(String grade) {
+        this.grade = grade;
+    }
+    
+    @Override
+    String getGrade() {
+        return grade;
+    }
+}
+
+class Engineer extends Employee {
+    private int salary;
+    private String grade;
+    
+    @Override
+    int getSalary() {
+        return salary;
+    }
+    
+    @Override
+    void setSalary(int salary) {
+        this.salary = salary;
+    }
+    
+    @Override
+    void setGrade(String grade) {
+        this.grade = grade;
+    }
+    
+    @Override
+    String getGrade() {
+        return grade;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Manager m = new Manager();
+        m.setSalary(5000);
+        m.setGrade("G");
+        m.label();
+    }
+}
