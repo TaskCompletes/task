@@ -3,44 +3,56 @@ abstract int getSalary();
 abstract void setSalary(int salary);
 abstract void setGrade(String grade);
 abstract String getGrade();
-Public void label() {
-System.out.println(“Employee’s Data :”);
-System.out.println(“Grade:” + getGrade());
-System.out.println(“Salary”+getSalary());
+public void label() {
+System.out.println("Employees Data :");
+System.out.println("Grade:" + getGrade());
+System.out.println("Salary"+getSalary());
 }
 }
 class manager extends employee{
-Private int Salary;
-Private String Grade;
+private int Salary;
+private String Grade;
 
-public   void getSalary(){
-return salary;
+public  int getSalary(){
+return Salary;
 }
-Public String getGrade(){
+public String getGrade(){
 return Grade;
 }
-Public void setSalaray(int salary){
-This.salary = salary;
+public void setSalary(int salary){
+this.Salary = salary;
 }
-Public void setGrade(String Grade){
+public void setGrade(String Grade){
 this.Grade = Grade;
 }
 }
 
 class Engineer extends employee{
-Private int Salary;
-Private String Grade;
+private int Salary;
+private String Grade;
 
-public void getSalary(){
-return salary;
+public int getSalary(){
+return Salary;
 }
-Public String getGrade(){
+public String getGrade(){
 return Grade;
 }
-Public void setSalaray(int salary){
-This.salary = salary;
+public void setSalary(int salary){
+this.Salary = salary;
 }
-Public void setGrade(String Grade){
+public void setGrade(String Grade){
 this.Grade = Grade;
 }
+}
+
+ class Main{
+    public static void main(String []args){
+    manager m = new manager();
+    m.setSalary(5000);
+    m.setGrade("G");
+    m.label();
+        
+    
+    }
+
 }
