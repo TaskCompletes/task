@@ -1,0 +1,46 @@
+abstract class employee {
+abstract int getSalary();
+abstract void setSalary(int salary);
+abstract void setGrade(String grade);
+abstract String getGrade();
+Public void label() {
+System.out.println(“Employee’s Data :”);
+System.out.println(“Grade:” + getGrade());
+System.out.println(“Salary”+getSalary());
+}
+}
+class manager extends employee{
+Private int Salary;
+Private String Grade;
+
+public   void getSalary(){
+return salary;
+}
+Public String getGrade(){
+return Grade;
+}
+Public void setSalaray(int salary){
+This.salary = salary;
+}
+Public void setGrade(String Grade){
+this.Grade = Grade;
+}
+}
+
+class Engineer extends employee{
+Private int Salary;
+Private String Grade;
+
+public void getSalary(){
+return salary;
+}
+Public String getGrade(){
+return Grade;
+}
+Public void setSalaray(int salary){
+This.salary = salary;
+}
+Public void setGrade(String Grade){
+this.Grade = Grade;
+}
+}
