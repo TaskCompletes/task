@@ -1,4 +1,25 @@
-<ProfileUpdatesRequired Overall="false">
+this is code which i have written <?php
+
+$note=readline("enter xml code");
+
+$xml = simplexml_load_string($note);
+
+var_dump($xml->PasswordReset);
+var_dump($xml->Department);
+echo "below is overall";
+var_dump($xml["Overall"]);
+
+enter xml code<ProfileUpdatesRequired Overall="false">
 <PasswordReset>false</PasswordReset>
 <Department>false</Department>
 </ProfileUpdatesRequired>
+<ProfileUpdatesRequired Overall="false"> this is the input which i am getting from user 
+
+Warning: simplexml_load_string(): Entity: line 1: parser error : EndTag: '</' not found in /tmp/WvRj2AstbL.php on line 5
+
+Warning: simplexml_load_string(): <ProfileUpdatesRequired Overall="false"> in /tmp/WvRj2AstbL.php on line 5
+
+Warning: simplexml_load_string():                                         ^ in /tmp/WvRj2AstbL.php on line 5
+
+Warning: Attempt to read property "PasswordReset" on bool in /tmp/WvRj2AstbL.php on line 7
+NULL above is what i am getting
