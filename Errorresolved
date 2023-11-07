@@ -1,71 +1,34 @@
-abstract class Employee {
-    abstract int getSalary();
-    abstract void setSalary(int salary);
-    abstract void setGrade(String grade);
-    abstract String getGrade();
-    
-    public void label() {
-        System.out.println("Employee Data:");
-        System.out.println("Grade: " + getGrade());
-        System.out.println("Salary: " + getSalary());
-    }
+<?php
+use Drupal\ample\Event\UserLoginEvent;
+function ample_user_login($account) {
+   
+    \Drupal::messenger()->addMessage("user login is happening");
+     if($account->isActive())
+     {
+        $UserLoginEvents = new UserLoginEvent();
+        $UserLoginEvents->checkforpasswordreset(4);
+     }
+  
 }
+in this code i have implemented userloginhook and when user login it instantiate userloginevent class 
+and call a method called checkforpasswordreset with the parameter of some number
+<?php
 
-class Manager extends Employee {
-    private int salary;
-    private String grade;
-    
-    @Override
-    int getSalary() {
-        return salary;
-    }
-    
-    @Override
-    void setSalary(int salary) {
-        this.salary = salary;
-    }
-    
-    @Override
-    void setGrade(String grade) {
-        this.grade = grade;
-    }
-    
-    @Override
-    String getGrade() {
-        return grade;
-    }
-}
+namespace Drupal\ample\Event;
 
-class Engineer extends Employee {
-    private int salary;
-    private String grade;
+class UserLoginEvent {
     
-    @Override
-    int getSalary() {
-        return salary;
-    }
-    
-    @Override
-    void setSalary(int salary) {
-        this.salary = salary;
-    }
-    
-    @Override
-    void setGrade(String grade) {
-        this.grade = grade;
-    }
-    
-    @Override
-    String getGrade() {
-        return grade;
+    public function checkforpasswordreset($num)
+    {
+        var_dump($num);
+        if($num == 3) {
+          \Drupal::messenger()->addStatus("they need to be change password");
+          return null;
+        }
+        else {
+          \Drupal::messenger()->addStatus("from form builder");
+          return \Drupal::formBuilder()->getForm("Drupal\ample\Form\ampleForm");
+        }
     }
 }
-
-public class Main {
-    public static void main(String[] args) {
-        Manager m = new Manager();
-        m.setSalary(5000);
-        m.setGrade("G");
-        m.label();
-    }
-}
+but when i the codes message is printing but the form is not returning
