@@ -1,292 +1,163 @@
 <?php
-namespace Drupal\rsvplist\Form;
-//use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\user\Form\UserPasswordForm;
-class Resetform extends UserPasswordForm{
-    
-    public function getFormId()
-    {
-        return "reset_form_password_page";
-    }    
 
-     public function buildForm(array $form, FormStateInterface $form_state)
-     {
-        try{
-               
-            $forms = \Drupal::formBuilder()->getForm(UserPasswordForm::class);
-            
-            $forms['name']['#title'] = $this->t("email address");
-            //$forms['name']['#description'] = $this->t(" ");
-            $forms['mail']['#markup'] = $this->t(" ");
-            
-            $forms ['cancelbutton'] = [
-                '#type'=> "submit",
-                "#value"=>$this->t("cancel")
-            ];
-           //print_r($forms);
-            
-           if($forms)
-            {
-                \Drupal::messenger()->addMessage("form present");
-                //\Drupal::messenger()->addMessage($forms['#title']."title should chnage");
-            }
-            else{
-                \Drupal::messenger()->addMessage("form not present");
-            }
-            $formhtml = \Drupal::service('renderer')->renderRoot($forms);
-            $output = [
-                "#markup"=>$formhtml,
-               
-            ]; 
-             return $output;
-        }
-        catch(\Exception $e){
+namespace Drupal\tna_legislation_publishing_user\Event;
 
-            echo $e->getMessage();
-        }
-        
-     }
-    public function validateForm(array &$form, FormStateInterface $form_state)
-    {
-        $email = $form_state->getValue('name'); 
-        \Drupal::messenger()->addMessage("form get submitted");
-        \Drupal::messenger()->addMessage("form get validated");
-            
-    }
+use Drupal\tna_legislation_publishing_client\Exception\ClientException;
+use Drupal\tna_legislation_publishing_user\Service\ForcedPasswordService;
+use Drupal\tna_legislation_publishing_user\Service\ProfileUpdateDTO;
+use symfony\component\DependencyInjection\ContainerInterface;
 
-    public function submitForm(array &$form, FormStateInterface $form_state)
-    {
-        //\Drupal::messenger()->addMessage("form might be submited");
-    }
-        
-    
-}
-<?php
+class ForcePasswordEvent {
+  public function __construct(
+    protected ForcedPasswordService $forcedPasswordService,
+  ){}
 
-namespace Drupal\user\Form;
-
-use Drupal\Component\Utility\EmailValidatorInterface;
-use Drupal\Core\Config\ConfigFactory;
-use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\Core\Flood\FloodInterface;
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Render\Element\Email;
-use Drupal\Core\TypedData\TypedDataManagerInterface;
-use Drupal\user\UserInterface;
-use Drupal\user\UserStorageInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-/**
- * Provides a user password reset form.
- *
- * Send the user an email to reset their password.
- *
- * @internal
- */
-class UserPasswordForm extends FormBase {
-
-  /**
-   * The user storage.
-   *
-   * @var \Drupal\user\UserStorageInterface
-   */
-  protected $userStorage;
-
-  /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
-   * The flood service.
-   *
-   * @var \Drupal\Core\Flood\FloodInterface
-   */
-  protected $flood;
-
-  /**
-   * The typed data manager.
-   *
-   * @var \Drupal\Core\TypedData\TypedDataManagerInterface
-   */
-  protected $typedDataManager;
-
-  /**
-   * The email validator service.
-   *
-   * @var \Drupal\Component\Utility\EmailValidatorInterface
-   */
-  protected $emailValidator;
-
-  /**
-   * Constructs a UserPasswordForm object.
-   *
-   * @param \Drupal\user\UserStorageInterface $user_storage
-   *   The user storage.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
-   *   The language manager.
-   * @param \Drupal\Core\Config\ConfigFactory $config_factory
-   *   The config factory.
-   * @param \Drupal\Core\Flood\FloodInterface $flood
-   *   The flood service.
-   * @param \Drupal\Core\TypedData\TypedDataManagerInterface $typed_data_manager
-   *   The typed data manager.
-   * @param \Drupal\Component\Utility\EmailValidatorInterface $email_validator
-   *   The email validator service.
-   */
-  public function __construct(UserStorageInterface $user_storage, LanguageManagerInterface $language_manager, ConfigFactory $config_factory, FloodInterface $flood, TypedDataManagerInterface $typed_data_manager, EmailValidatorInterface $email_validator) {
-    $this->userStorage = $user_storage;
-    $this->languageManager = $language_manager;
-    $this->configFactory = $config_factory;
-    $this->flood = $flood;
-    $this->typedDataManager = $typed_data_manager;
-    $this->emailValidator = $email_validator;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
+  public static function createInstance(ContainerInterface $contaier){
     return new static(
-      $container->get('entity_type.manager')->getStorage('user'),
-      $container->get('language_manager'),
-      $container->get('config.factory'),
-      $container->get('flood'),
-      $container->get('typed_data_manager'),
-      $container->get('email.validator')
+        $contaier->get("tna_legislation_publishing_user.forced_password_service")
     );
   }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getFormId() {
-    return 'user_pass';
+  public function checkResetRequired() {
+    try{
+        $resp = $this->forcedPasswordService->checkPasswordChangeRequired();
+        $updateDTO = $this->parseXML($resp);
+    }
+    catch(ClientException $e){
+        $e->getApiExceptionBody()->getMessage();
+    }
+    
   }
+  protected function parseXML($resp) : ProfileUpdateDTO{
+    $xml = simplexml_load_string($resp);
+    $updatedto = new ProfileUpdateDTO();
+    $updatedto->setOverall($xml["overall"]);
+    $updatedto->setPasswordReset($xml->PasswordReset);
+    $updatedto->setDepartamental($xml->Department);
+    return $updatedto;
+  }
+}
+this is the code which i have written 
+Much of the code looks alright, but it would benefit from a restructure so it is actually called as you expect.
+ 
+You have created an event. An event is to be broadcast so an event listener can add itself to the stack - whereas you want to listen for the login event. 
+ 
+I'd suggest you duplicate the code of something like drupal/web/modules/custom/tna_legislation_publishing_roles/src/EventSubscriber/UserLoginSubscriber.php  to subscribe to the UserLoginEvent::NAME event and trigger your code in checkResetRequired
+ 
+I'd move the parseXML into the forcedPasswordService rather than be a part of the event listener - so checkPasswordChangeRequired returns the Dto.
+ 
+You would then need tor egister your event listener using the services.yml file, e.g.:
+ 
+  tna_legislation_publishing_roles.user_login:
+    class: Drupal\tna_legislation_publishing_roles\EventSubscriber\UserLoginSubscriber
+    arguments: [
+      '@entity_type.manager',
+      '@tna_legislation_publishing_user.user_persistence',
+      '@tna_legislation_publishing_roles.role_service'
+    ]
+    tags:
+      - { name: 'event_subscriber' }
+As it is a service you don't need the public static function createInstance(ContainerInterface $contaier){ style injection - you just add the services in the services.yml for inclusion in the constructor
+
+
+
+
+this is the suggestion i got
+
+
+
+<?php
+
+namespace Drupal\tna_legislation_publishing_roles\EventSubscriber;
+
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\tna_legislation_publishing_client\Exception\ClientException;
+use Drupal\tna_legislation_publishing_roles\Service\RoleService;
+use Drupal\tna_legislation_publishing_user\Event\UserLoginEvent;
+use Drupal\tna_legislation_publishing_user\Service\UserPersistence;
+use Drupal\user\Entity\Role;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+class UserLoginSubscriber implements EventSubscriberInterface {
+
+  public function __construct(
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected UserPersistence $userPersistence,
+    protected RoleService $roleService
+  ) {}
 
   /**
-   * {@inheritdoc}
+   * @inheritDoc
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['name'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Username or email address'),
-      '#size' => 60,
-      '#maxlength' => max(UserInterface::USERNAME_MAX_LENGTH, Email::EMAIL_MAX_LENGTH),
-      '#required' => TRUE,
-      '#attributes' => [
-        'autocorrect' => 'off',
-        'autocapitalize' => 'off',
-        'spellcheck' => 'false',
-        'autofocus' => 'autofocus',
-      ],
+  public static function getSubscribedEvents(): array {
+    return [
+      UserLoginEvent::NAME => 'onUserLogin',
     ];
-    // Allow logged in users to request this also.
-    $user = $this->currentUser();
-    if ($user->isAuthenticated()) {
-      $form['name']['#type'] = 'value';
-      $form['name']['#value'] = $user->getEmail();
-      $form['mail'] = [
-        '#prefix' => '<p>',
-        '#markup' => $this->t('Password reset instructions will be mailed to %email. You must log out to use the password reset link in the email.', ['%email' => $user->getEmail()]),
-        '#suffix' => '</p>',
-      ];
-    }
-    else {
-      $form['mail'] = [
-        '#prefix' => '<p>',
-        '#markup' => $this->t('Password reset instructions will be sent to your registered email address.'),
-        '#suffix' => '</p>',
-      ];
-      $form['name']['#default_value'] = $this->getRequest()->query->get('name');
-    }
-    $form['actions'] = ['#type' => 'actions'];
-    $form['actions']['submit'] = ['#type' => 'submit', '#value' => $this->t('Submit')];
-    $form['#cache']['contexts'][] = 'url.query_args';
-
-    return $form;
   }
 
   /**
-   * {@inheritdoc}
+   * Retrieve user roles from the API and apply to Drupal.
+   *
+   * @param \Drupal\tna_legislation_publishing_user\Event\UserLoginEvent $event
+   *
+   * @return void
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    $flood_config = $this->configFactory->get('user.flood');
-    if (!$this->flood->isAllowed('user.password_request_ip', $flood_config->get('ip_limit'), $flood_config->get('ip_window'))) {
-      $form_state->setErrorByName('name', $this->t('Too many password recovery requests from your IP address. It is temporarily blocked. Try again later or contact the site administrator.'));
+  public function onUserLogin(UserLoginEvent $event): void {
+    $account = $event->account;
+    $uid = $event->account->id();
+
+    // We provide a backdoor for pure Drupal admin, where the user admin user
+    // does not login to the API, so they can access the site when the API is
+    // down.
+    if ($uid === '1') {
       return;
     }
-    $this->flood->register('user.password_request_ip', $flood_config->get('ip_window'));
-    // First, see if the input is possibly valid as a username.
-    $name = trim($form_state->getValue('name'));
-    $definition = BaseFieldDefinition::create('string')
-      ->addConstraint('UserName', []);
-    $data = $this->typedDataManager->create($definition);
-    $data->setValue($name);
-    $violations = $data->validate();
-    // Usernames have a maximum length shorter than email addresses. Only print
-    // this error if the input is not valid as a username or email address.
-    if ($violations->count() > 0 && !$this->emailValidator->isValid($name)) {
-      $form_state->setErrorByName('name', $this->t("The username or email address is invalid."));
-      return;
-    }
+    $email = $event->account->getEmail();
 
-    // Try to load by email.
-    $users = $this->userStorage->loadByProperties(['mail' => $name]);
-    if (empty($users)) {
-      // No success, try to load by name.
-      $users = $this->userStorage->loadByProperties(['name' => $name]);
-    }
-    $account = reset($users);
-    // Blocked accounts cannot request a new password.
-    if ($account && $account->id() && $account->isActive()) {
-      // Register flood events based on the uid only, so they apply for any
-      // IP address. This allows them to be cleared on successful reset (from
-      // any IP).
-      $identifier = $account->id();
-      if (!$this->flood->isAllowed('user.password_request_user', $flood_config->get('user_limit'), $flood_config->get('user_window'), $identifier)) {
-        return;
+    try {
+      $metadata = $this->userPersistence->getUserByEmail($email);
+
+      $existingRoles = $account->getRoles();
+
+      foreach ($existingRoles as $existingRole) {
+        $account->removeRole($existingRole);
       }
-      $this->flood->register('user.password_request_user', $flood_config->get('user_window'), $identifier);
-      $form_state->setValueForElement(['#parents' => ['account']], $account);
-    }
-  }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    $account = $form_state->getValue('account');
-    if ($account) {
-      // Mail one time login URL and instructions using current language.
-      $mail = _user_mail_notify('password_reset', $account);
-      if (!empty($mail)) {
-        $this->logger('user')
-          ->info('Password reset instructions mailed to %name at %email.', [
-            '%name' => $account->getAccountName(),
-            '%email' => $account->getEmail(),
-          ]);
+      foreach ($metadata->getRoles() as $apiRole) {
+        $drupalRole = Role::load(
+          $this->roleService->formatApiNameToMachineName($apiRole->getName())
+        );
+
+        if ($drupalRole) {
+          $account->addRole($drupalRole->id());
+        }
       }
-    }
-    else {
-      $this->logger('user')
-        ->info('Password reset form was submitted with an unknown or inactive account: %name.', [
-          '%name' => $form_state->getValue('name'),
-        ]);
-    }
-    // Make sure the status text is displayed even if no email was sent. This
-    // message is deliberately the same as the success message for privacy.
-    $this->messenger()
-      ->addStatus($this->t('If %identifier is a valid account, an email will be sent with instructions to reset your password.', [
-        '%identifier' => $form_state->getValue('name'),
-      ]));
 
-    $form_state->setRedirect('<front>');
+      $account->save();
+    }
+    catch (ClientException $exception) {
+      throw new HttpException(
+        'Unable to access role permissions system.',
+        500
+      );
+    }
   }
 
 }
+this the code he mentioned now the objective is whenver user we need to send request to api but the problem is non of the above file got triiger when user login
+
+
+
+
+function tna_legislation_publishing_user_user_login($account): void {
+  // Instantiate our event.
+  $event = new UserLoginEvent($account);
+
+  /**
+   * @var Drupal\Component\EventDispatcher\ContainerAwareEventDispatcher $event_dispatcher
+   */
+  $event_dispatcher = \Drupal::service('event_dispatcher');
+  $event_dispatcher->dispatch($event, UserLoginEvent::NAME);
+} this is the hook which we have defined
