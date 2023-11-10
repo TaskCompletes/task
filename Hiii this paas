@@ -1,25 +1,55 @@
-this is code which i have written <?php
+<?php
 
-$note=readline("enter xml code");
+namespace Drupal\tna_legislation_publishing_user\Event;
 
-$xml = simplexml_load_string($note);
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Url;
+use Drupal\tna_legislation_publishing_client\Exception\ClientException;
+use Drupal\tna_legislation_publishing_user\Event\UserLoginEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\tna_legislation_publishing_user\Service\ForcedPasswordService;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
-var_dump($xml->PasswordReset);
-var_dump($xml->Department);
-echo "below is overall";
-var_dump($xml["Overall"]);
+class ForcePasswordEvent implements EventSubscriberInterface {
 
-enter xml code<ProfileUpdatesRequired Overall="false">
-<PasswordReset>false</PasswordReset>
-<Department>false</Department>
-</ProfileUpdatesRequired>
-<ProfileUpdatesRequired Overall="false"> this is the input which i am getting from user 
+  public function __construct(
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected ForcedPasswordService $forcedPasswordService,
+  ) {}
+  
+  public static function getSubscribedEvents(): array {
+    return [
+      UserLoginEvent::FORCEPASSWORD => 'checkResetRequired',
+    ];
+  }
 
-Warning: simplexml_load_string(): Entity: line 1: parser error : EndTag: '</' not found in /tmp/WvRj2AstbL.php on line 5
+  public function checkResetRequired(UserLoginEvent $event): void {
+    
+    try{
+      $resp = $this->forcedPasswordService->checkPasswordChangeRequired();
+      $updateDTO = $this->forcedPasswordService->parseXML($resp);
+      if($updateDTO->getPasswordReset()==="false") {
+        //$username = \Drupal::currentUser()->getAccountName();
+        //\Drupal::messenger()->addMessage($username);    
+      }
+      else {
+        $url = Url::fromUri("internal:/user/force");
+        $path = $url->toString();
+        $response = new RedirectResponse($path);
+        $response->send();
+        //$username = \Drupal::currentUser()->getAccountName();
+        //\Drupal::messenger()->addMessage($username);     
+      }
 
-Warning: simplexml_load_string(): <ProfileUpdatesRequired Overall="false"> in /tmp/WvRj2AstbL.php on line 5
+    }
+    catch(ClientException $e){
+        $e->getApiExceptionBody()->getMessage();
+    }
+    
+  }
 
-Warning: simplexml_load_string():                                         ^ in /tmp/WvRj2AstbL.php on line 5
-
-Warning: Attempt to read property "PasswordReset" on bool in /tmp/WvRj2AstbL.php on line 7
-NULL above is what i am getting
+}
+ RuntimeException: Failed to start the session because headers have already been sent by
+                                                                       "/var/www/vendor/symfony/http-foundation/Response.php" at line 410. in
+                                                                       Symfony\Component\HttpFoundat
+this the error i got when i run
