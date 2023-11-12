@@ -1,75 +1,52 @@
 <?php
-namespace Drupal\rsvplist\Form;
-//use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\user\Form\UserPasswordForm;
-class Resetform extends UserPasswordForm{
-    
-    public function getFormId()
-    {
-        return "reset_form_password_page";
-    }    
 
-     public function buildForm(array $form, FormStateInterface $form_state)
-     {
-        //var_dump($form_state);
-        try{
-               
-           $form ['email'] =[
-            '#type' => 'textfield',
-            '#title' => $this->t('email address testing '),
-            '#size' => 60,
-           ];
+namespace Drupal\ample\Event;
 
-           $form['button_container'] = [
-            '#type'=>'container',
-            '#attributes'=>[
-                'class'=>['button-container']
-            ]
-            ];
-            $form['button_container']['submit_button'] = [
-                "#type"=>'submit',
-                "#value"=>$this->t("submit")
-            ];
+use Symfony\Contracts\EventDispatcher\Event;
+use Drupal\user\UserInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Url;
+use RuntimeException;
 
-            $form['button_container']['cancel_button'] = [
-                      '#type'=>'submit',
-                      '#value'=> $this->t("cancel"),
-                      "#submit"=>['::cancelButtonSubmit']
-            ];
+class UserLoginEvent extends Event {
 
-             return $form;
-        }
-        catch(\Exception $e){
-
-            echo $e->getMessage();
-        }
-        
-     }
-    public function validateForm(array &$form, FormStateInterface $form_state)
-    {
-        $email = $form_state->getValue('email'); 
-        if(str_contains($email,"'")){
-
-            $form_state->setErrorByName($email,"legislation.gov.uk Publishing cannot acceptemail address");
-        }
-        elseif(!\Drupal::service('email.validator')->isValid($email)){
-            $form_state->setErrorByName($email,"not valid email");
-        }
-            
+  public const NAME = 'ample.Forcepassword';
+  /**
+   * Constructs the object.
+   *
+   * @param \Drupal\user\UserInterface $account
+   *   The Drupal account of the user logged in.
+   */
+  public function __construct(public UserInterface $account) {
+   // \Drupal::logger('ample')->info("executed inside event");
+    //session_start();
+   // if(empty($_SESSION))
+    //{
+      //ch\Drupal::logger()->
+    //}
+    //session_commit();
+    //$username = \Drupal::currentUser()->getAccountName();
+    //\Drupal::messenger()->addMessage("username is");
+    //\Drupal::messenger()->addMessage($username);
+    try{
+      \Drupal::logger("ample")->info("exception happended");
+      $url = Url::fromUri("internal:/example");
+      $path = $url->toString();
+      $response = new RedirectResponse($path);
+      $response->send();
     }
-
-    public function submitForm(array &$form, FormStateInterface $form_state)
-    {
-       // \Drupal::messenger()->addMessage("form might be submited");
-        //var_dump($form_state);
-         $form['message'] = "email was sent";
- 
-          \Drupal::messenger()->addMessage($this->t("@mail",["@mail"=>$form_state->getValue('email')]));
-        $form['email']['#access'] = FALSE; 
-        //$form['message']['#access'] = TRUE;
-        
+    catch(\Exception $e){
+      $e->getMessage();
+      \Drupal::logger("ample")->info("exception happended");
     }
-        
     
+      //$username = \Drupal::currentUser()->getAccountName();
+      //\Drupal::messenger()->addMessage("username is");
+      //\Drupal::messenger()->addMessage($username);
 }
+  
+}
+the above program runs and give following error
+
+
+RuntimeException: Failed to start the session because headers have already been sent by "C:\xampp\htdocs\drupal\demos\vendor\symfony\http-foundation\Response.php" at line 1325. in Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage->start() (line 132 of C:\xampp\htdocs\drupal\demos\vendor\symfony\http-foundation\Session\Storage\NativeSessionStorage.php)
