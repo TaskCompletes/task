@@ -1,0 +1,75 @@
+The error you're encountering indicates that session-related headers are being sent after some content has already been sent to the browser. In your code, the issue likely stems from calling `$response->send()` after some output has already been generated.
+
+To resolve this, avoid sending the response directly within the event constructor. Instead, let the normal Drupal request lifecycle handle the response. You can set a response object as a property of the event, and let the calling code handle the response sending.
+
+Here's an updated version of your code:
+
+```php
+<?php
+
+namespace Drupal\ample\Event;
+
+use Symfony\Contracts\EventDispatcher\Event;
+use Drupal\user\UserInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Url;
+use RuntimeException;
+
+class UserLoginEvent extends Event {
+
+  public const NAME = 'ample.Forcepassword';
+
+  /**
+   * @var \Symfony\Component\HttpFoundation\RedirectResponse|null
+   */
+  protected $redirectResponse = null;
+
+  /**
+   * Constructs the object.
+   *
+   * @param \Drupal\user\UserInterface $account
+   *   The Drupal account of the user logged in.
+   */
+  public function __construct(UserInterface $account) {
+    $this->account = $account;
+  }
+
+  /**
+   * Set the redirect response.
+   *
+   * @param \Symfony\Component\HttpFoundation\RedirectResponse $response
+   */
+  public function setRedirectResponse(RedirectResponse $response) {
+    $this->redirectResponse = $response;
+  }
+
+  /**
+   * Get the redirect response.
+   *
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse|null
+   */
+  public function getRedirectResponse() {
+    return $this->redirectResponse;
+  }
+}
+```
+
+Then, in the code that triggers this event, check if a redirect response is set and send it appropriately:
+
+```php
+// Example usage:
+
+// Trigger the event.
+$event = new UserLoginEvent($userAccount);
+// ... do other event-related logic ...
+
+// Check if a redirect response is set.
+if ($event->getRedirectResponse()) {
+  // Send the redirect response.
+  $event->getRedirectResponse()->send();
+  // Ensure that any further execution stops.
+  exit();
+}
+```
+
+This separation allows you to set the redirect response within the event and then handle the response sending in a more controlled manner.
