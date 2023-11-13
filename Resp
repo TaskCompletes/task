@@ -1,75 +1,56 @@
-The error you're encountering indicates that session-related headers are being sent after some content has already been sent to the browser. In your code, the issue likely stems from calling `$response->send()` after some output has already been generated.
-
-To resolve this, avoid sending the response directly within the event constructor. Instead, let the normal Drupal request lifecycle handle the response. You can set a response object as a property of the event, and let the calling code handle the response sending.
-
-Here's an updated version of your code:
-
-```php
 <?php
 
-namespace Drupal\ample\Event;
+namespace Drupal\tna_legislation_publishing_user\Service;
 
-use Symfony\Contracts\EventDispatcher\Event;
-use Drupal\user\UserInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Drupal\Core\Url;
-use RuntimeException;
+use Drupal\tna_legislation_publishing_client\Client\UserApiClient;
 
-class UserLoginEvent extends Event {
+class ForcedPasswordService {
+  public function __construct(
+    protected UserApiClient $user_api
+  ){}
+  public function checkPasswordChangeRequired() {
+    
+    $requesturl = "/person/profile_changes_required.xml";
+    $response = $this->user_api->request(
+      "GET",
+      $requesturl
+    );
 
-  public const NAME = 'ample.Forcepassword';
-
-  /**
-   * @var \Symfony\Component\HttpFoundation\RedirectResponse|null
-   */
-  protected $redirectResponse = null;
-
-  /**
-   * Constructs the object.
-   *
-   * @param \Drupal\user\UserInterface $account
-   *   The Drupal account of the user logged in.
-   */
-  public function __construct(UserInterface $account) {
-    $this->account = $account;
+    return $response;
   }
-
-  /**
-   * Set the redirect response.
-   *
-   * @param \Symfony\Component\HttpFoundation\RedirectResponse $response
-   */
-  public function setRedirectResponse(RedirectResponse $response) {
-    $this->redirectResponse = $response;
+  public function parseXML($resp) : ProfileUpdateDTO{
+    $xml = simplexml_load_string($resp);
+    $updatedto = new ProfileUpdateDTO();
+    $updatedto->setOverall($xml["Overall"]);
+    $updatedto->setPasswordReset($xml->PasswordReset);
+    $updatedto->setDepartamental($xml->Department);
+    return $updatedto;
   }
-
-  /**
-   * Get the redirect response.
-   *
-   * @return \Symfony\Component\HttpFoundation\RedirectResponse|null
-   */
-  public function getRedirectResponse() {
-    return $this->redirectResponse;
+  public function resetPassword(string $currentpassword, string $newpassword,string $username) : void {
+    $requestUrl = "/person/{$username}/password/data.xml";
+    $xmlBody = $this->buildXML($currentpassword, $newpassword);
+    $this->user_api->request(
+      $requestUrl,
+      "POST",
+      $xmlBody,
+      FALSE
+    );
   }
-}
-```
+  protected function buildXML(string $currentpassword, string $newpassword) : array {
+    $xml = "<Person>
+    <OldPassword>{$currentpassword}</OldPassword>
+    <NewPassword>{$newpassword}</NewPassword>
+  </Person>";
+    $xmlBody= [
+      'headers' => [
+      'Content-Type' => 'text/xml; charset=UTF8'
+       ],
+       'body' => $xml
+    ];
 
-Then, in the code that triggers this event, check if a redirect response is set and send it appropriately:
-
-```php
-// Example usage:
-
-// Trigger the event.
-$event = new UserLoginEvent($userAccount);
-// ... do other event-related logic ...
-
-// Check if a redirect response is set.
-if ($event->getRedirectResponse()) {
-  // Send the redirect response.
-  $event->getRedirectResponse()->send();
-  // Ensure that any further execution stops.
-  exit();
-}
-```
-
-This separation allows you to set the redirect response within the event and then handle the response sending in a more controlled manner.
+    return $xmlBody;
+  }
+} for this code i am getting following error 
+ JMS\Serializer\Exception\InvalidArgumentException: The document type "" is not allowed. If it is
+                                                                       safe, you may add it to the allowlist configuration. in JMS\Serializer\XmlDeserializationVi
+  1444   13/Nov 16:31   tna_legislation_publishing_client   Error      (CODE 400) HTTP ERROR: API request failed with URL POST
