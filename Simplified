@@ -1,16 +1,21 @@
-/* 
- * Reset Password
- */ 
-    
-jQuery(document).ready(function ($) {
+$form['forcedpasswordcontainer']['info'] = [
+      "#type" => "markup",
+      "#markup" => "<p class= 'info'> Profile </p>"
+    ];
 
-    if($("form.reset-password").length > 0) {
+    $form['forcedpasswordcontainer']['currentpassword'] = [
+      "#type" => "password",
+      "#title" => $this->t("Current password"),
+      "#required" => True,
+      '#attributes' => [
+        'class' => ['password_reset_field']
+      ] 
+    ];
 
-        $("#main-menu").hide();        
-        $("span.privacypolicy").hide();        
-        $("ul.tabs.primary").hide();
-        $("dd.profile").hide();       
-            
-    }       
-
-}); what does this code means
+    $form["forcedpasswordcontainer"]["newpassword"] = [
+      "#type" => "password_confirm",
+      "#required" => True,
+      '#attributes' => [
+        'class' => ['password_reset_field']
+      ]
+    ];
