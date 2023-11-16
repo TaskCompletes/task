@@ -1,0 +1,61 @@
+/**
+ * Implements hook_form_FORM_ID_alter() for your form.
+ */
+function your_module_form_your_form_id_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Add a select field to your form.
+  $form['select_field'] = array(
+    '#type' => 'select',
+    '#title' => t('Select Field'),
+    '#options' => array(
+      1 => t('One'),
+      2 => t('Two'),
+    ),
+    '#default_value' => $form_state->getValue('select_field'),
+    '#ajax' => array(
+      'callback' => 'your_module_select_field_callback',
+      'wrapper' => 'conditional-fields-wrapper',
+    ),
+  );
+
+  // Container for conditional fields.
+  $form['conditional_fields'] = array(
+    '#type' => 'container',
+    '#attributes' => array('id' => 'conditional-fields-wrapper'),
+  );
+
+  // Add text fields based on the selected value.
+  $selected_value = $form_state->getValue('select_field');
+
+  $form['conditional_fields']['text_field_1'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text Field 1'),
+    '#prefix' => '<div id="text-field-1-wrapper">',
+    '#suffix' => '</div>',
+    '#states' => array(
+      'visible' => array(
+        ':input[name="select_field"]' => array('value' => 1),
+      ),
+    ),
+  );
+
+  $form['conditional_fields']['text_field_2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text Field 2'),
+    '#prefix' => '<div id="text-field-2-wrapper">',
+    '#suffix' => '</div>',
+    '#states' => array(
+      'visible' => array(
+        ':input[name="select_field"]' => array('value' => 2),
+      ),
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Ajax callback for updating conditional fields.
+ */
+function your_module_select_field_callback(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  return $form['conditional_fields'];
+}
