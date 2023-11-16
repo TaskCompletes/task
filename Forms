@@ -1,0 +1,38 @@
+/**
+ * Implements hook_form_FORM_ID_alter() for your form.
+ */
+function your_module_form_your_form_id_alter(&$form, &$form_state, $form_id) {
+  // Add a select field to your form.
+  $form['select_field'] = array(
+    '#type' => 'select',
+    '#title' => t('Select Field'),
+    '#options' => array(
+      1 => t('One'),
+      2 => t('Two'),
+    ),
+    '#default_value' => isset($form_state['input']['select_field']) ? $form_state['input']['select_field'] : '',
+  );
+
+  // Add text fields based on the selected value.
+  $selected_value = isset($form_state['input']['select_field']) ? $form_state['input']['select_field'] : '';
+
+  $form['text_field_1'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text Field 1'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="select_field"]' => array('value' => 1),
+      ),
+    ),
+  );
+
+  $form['text_field_2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text Field 2'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="select_field"]' => array('value' => 2),
+      ),
+    ),
+  );
+}
