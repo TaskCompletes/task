@@ -1,21 +1,26 @@
-$form['forcedpasswordcontainer']['info'] = [
-      "#type" => "markup",
-      "#markup" => "<p class= 'info'> Profile </p>"
-    ];
+public function customAjaxCallback(array &$form, FormStateInterface $form_state) {
+    $selectedValue = $form_state->getValue('select_branch_name');
+    //var_dump($selectedValue);
+    \Drupal::logger("ample")->info($selectedValue);
+   // var_dump($selectedValue);
+   
+   for($i=0; $i<$selectedValue;$i++){
+    $form['something']["titlefield{$i}"] = [
+      "#type" => 'textfield'
+     ];
+     $form['something']["check3{$i}"] = [
+      '#type' => 'checkboxes',
+ '#title' => t('Various Options by Checkbox'),
+ '#options' => array(
+   1 => t('Option One'),
+   2 => t('Option Two'),
+   3 => t('Option Three'),
+ ),
+     
+    ]; 
+   }
+    $response = new AjaxResponse();
+    $response->addCommand(new HtmlCommand('#edit-output', $form['something']));
 
-    $form['forcedpasswordcontainer']['currentpassword'] = [
-      "#type" => "password",
-      "#title" => $this->t("Current password"),
-      "#required" => True,
-      '#attributes' => [
-        'class' => ['password_reset_field']
-      ] 
-    ];
-
-    $form["forcedpasswordcontainer"]["newpassword"] = [
-      "#type" => "password_confirm",
-      "#required" => True,
-      '#attributes' => [
-        'class' => ['password_reset_field']
-      ]
-    ];
+    return $response;
+  } this code print textfield perfectly for checkboxes it print only text various optionsby checkbox
