@@ -1,0 +1,29 @@
+<Person xmlns="http://publishing.legislation.gov.uk/person" URI="https://publishing.qa.legislation.gov.uk/person/narkunan@tso.co.uk">
+<Username>narkunan@tso.co.uk</Username>
+<Profile URI="https://publishing.qa.legislation.gov.uk/person/narkunan@tso.co.uk/profile">
+<Title>Mr</Title>
+<FirstName>Narkunan</FirstName>
+<LastName>M</LastName>
+<JobTitle>Software Developer</JobTitle>
+<Department Identifier="http://www.legislation.gov.uk/id/department/co">Cabinet Office</Department>
+<ContactDetails>
+<ContactNumber>0000000000</ContactNumber>
+</ContactDetails>
+<HistoricUsernames/>
+</Profile>
+<Settings URI="https://publishing.qa.legislation.gov.uk/person/narkunan@tso.co.uk/settings" UniqueKey="43">
+<DocumentManagement>
+<GeographicalInterests PreferredDepartmentInterest="UnitedKingdom"/>
+</DocumentManagement>
+</Settings>
+<Roles>
+<Role Name="vsrs:authenticated-user" Id="201">
+<Privilege Name="vsrs-priv:access-content" Id="100"/>
+</Role>
+<Role Name="vsrs:submitter" Id="206">
+<Privilege Name="vsrs-priv:access-submission" Id="106"/>
+<Privilege Name="vsrs-priv:access-validation" Id="101"/>
+<Privilege Name="vsrs-priv:access-tracking" Id="108"/>
+</Role>
+</Roles>
+</Person>
