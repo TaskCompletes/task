@@ -1,9 +1,14 @@
-jQuery(document).ready(function ($) {
-
-    if($("form.forced-password-reset-form").length > 0) {
-
-        $("#block-tna-legislation-publishing-legislationpublishingmenu").hide();              
-        $("ul.menu-list").hide();
-    }       
-
-});
+<NumberYearRequirements>
+<NumberYearRequirement EndDate='2013-01-18' Year='2012'/>
+<NumberYearRequirement StartDate='2012-12-28' EndDate='2014-02-01' Year='2013'/>
+<NumberYearRequirement StartDate='2014-01-01' EndDate='2015-02-01' Year='2014'/>
+<NumberYearRequirement StartDate='2014-11-28' EndDate='2016-03-31' Year='2015'/>
+<NumberYearRequirement StartDate='2015-11-28' EndDate='2017-02-01' Year='2016'/>
+<NumberYearRequirement StartDate='2016-12-23' EndDate='2018-02-01' Year='2017'/>
+<NumberYearRequirement StartDate='2017-12-15' EndDate='2019-01-31' Year='2018'/>
+<NumberYearRequirement StartDate='2018-12-17' EndDate='2020-01-31' Year='2019'/>
+<NumberYearRequirement StartDate='2019-12-17' EndDate='2021-01-31' Year='2020'/>
+<NumberYearRequirement StartDate='2020-12-16' EndDate='2022-01-31' Year='2021'/>
+<NumberYearRequirement StartDate='2021-12-13' EndDate='2023-01-31' Year='2022'/>
+<NumberYearRequirement StartDate='2022-12-15' Year='2023'/>
+</NumberYearRequirements> i want to store enddate and startdate in array
