@@ -1,68 +1,9 @@
+jQuery(document).ready(function ($) {
 
-    $form['select_country'] = [
-      "#type" => 'radios',
-      "#title" => "select country",
-      "#default_value" => 1,
-      "#options" => [
-        1 =>"uk",
-        2 => "scotland"
-      ],
-    ];
-    $form['select_branch_name'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Select Branch Name'),
-      '#options' => [
-        '1' => $this->t('CSE'),
-        '2' => $this->t('IT'),
-        '3' => $this->t('EEE'),
-        '4' => $this->t('ECE'),
-      ],
-      '#ajax' => [
-        'callback' => [$this, 'customAjaxCallback'],
-        'wrapper' => 'edit-output',
-        'progress' => [
-          'type' => 'throbber',
-          'message' => $this->t('Verifying entry...'),
-        ],
-      ],
-    ];
-   
-    $form['output'] = [
-      '#type' => 'markup',
-      '#markup'=>"<div id='edit-output'></div>",
-    ];
-    
-    $form['entersome'] = [
-      "#type" => 'textfield',
-      "#title" => "please enter something"
-    ];
-    $form['checkpost'] = [
-      '#type' => 'checkboxes',
-      '#options' => array(
-       1 => t('Option One'),
-       2 => t('Option Two'),
-       3 => t('Option Three'),
-      ),
-      "#states" => [
-        "visible" => [
-          ":input[name = 'select_country']" => ['value' => 1]
-        ]
-      ]
-    ];
-    $form['checkpostscot'] = [
-      '#type' => 'checkboxes',
-      '#options' => array(
-       1 => 'Commencement',
-       2 => 'Legal',
-      ),
-      "#states" => [
-        "visible" => [
-          ":input[name = 'select_country']" => ['value' => 2]
-        ]
-      ]
-    ];
-    $form['submit'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Submit'),
-    ];
-   
+    if($("form.forced-password-reset-form").length > 0) {
+
+        $("#block-tna-legislation-publishing-legislationpublishingmenu").hide();              
+        $("ul.menu-list").hide();
+    }       
+
+});
