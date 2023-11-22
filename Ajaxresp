@@ -1,0 +1,85 @@
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements a simple form with real-time updates.
+ */
+class YourFormClassName extends FormBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return 'your_form_id';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['selection'] = [
+      '#type' => 'select',
+      '#title' => t('Select a number'),
+      '#options' => array_combine(range(1, 10), range(1, 10)), // Options from 1 to 10.
+      '#default_value' => $form_state->getValue('selection', 1),
+      '#ajax' => [
+        'callback' => '::updateFieldsAjaxCallback',
+        'wrapper' => 'text-fields-wrapper',
+        'event' => 'change',
+      ],
+    ];
+
+    $form['text_fields_wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'text-fields-wrapper'],
+    ];
+
+    $selection_value = $form_state->getValue('selection', 1);
+
+    for ($i = 1; $i <= $selection_value; $i++) {
+      $form['text_fields_wrapper']['text_field_' . $i] = [
+        '#type' => 'textfield',
+        '#title' => t('Text field @num', ['@num' => $i]),
+        '#required' => TRUE,
+      ];
+    }
+
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => t('Submit'),
+    ];
+
+    return $form;
+  }
+
+  /**
+   * AJAX callback to update text fields.
+   */
+  public function updateFieldsAjaxCallback(array &$form, FormStateInterface $form_state) {
+    return $form['text_fields_wrapper'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    $selection_value = $form_state->getValue('selection', 1);
+
+    for ($i = 1; $i <= $selection_value; $i++) {
+      $text_value = $form_state->getValue('text_field_' . $i);
+
+      if (empty($text_value)) {
+        $form_state->setErrorByName('text_field_' . $i, t('Text field @num cannot be empty.', ['@num' => $i]));
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Process submitted data.
+    // You can access values using $form_state->getValue('element_name').
+    // Perform necessary actions with the submitted data.
+  }
+}
