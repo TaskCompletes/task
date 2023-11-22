@@ -1,38 +1,170 @@
+<?php
+namespace Drupal\ample\Form;
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+
 /**
- * Implements hook_form_FORM_ID_alter() for your form.
+ * Implements a simple form with real-time updates.
  */
-function your_module_form_your_form_id_alter(&$form, &$form_state, $form_id) {
-  // Add a select field to your form.
-  $form['select_field'] = array(
-    '#type' => 'select',
-    '#title' => t('Select Field'),
-    '#options' => array(
-      1 => t('One'),
-      2 => t('Two'),
-    ),
-    '#default_value' => isset($form_state['input']['select_field']) ? $form_state['input']['select_field'] : '',
-  );
+class AmpleForm extends FormBase {
 
-  // Add text fields based on the selected value.
-  $selected_value = isset($form_state['input']['select_field']) ? $form_state['input']['select_field'] : '';
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return 'your_form_id';
+  }
 
-  $form['text_field_1'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Text Field 1'),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="select_field"]' => array('value' => 1),
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['selection'] = [
+      '#type' => 'select',
+      '#title' => t('Select a number'),
+      '#options' => array_combine(range(1, 10), range(1, 10)),
+      '#default_value' => $form_state->getValue('selection', 1),
+      '#ajax' => [
+        'callback' => '::updateFieldsAjaxCallback',
+        'wrapper' => 'fields-wrapper',
+        'event' => 'change',
+      ],
+    ];
+    $form['country'] = [
+      "#type"=> "radios",
+      '#options' => [
+        1 => "uk",
+        2 => "scot",
+        3 => "ire"
+      ],
+
+    ];
+    $form['fields_wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'fields-wrapper'],
+    ];
+
+    $selection_value = $form_state->getValue('selection',1);
+
+    for ($i = 1; $i <= $selection_value; $i++) {
+      $form['fields_wrapper']['text_field_' . $i] = [
+        '#type' => 'textfield',
+        '#title' => t('Text field @num', ['@num' => $i]),
+        //'#required' => TRUE,
+      ];
+      $form['fields_wrapper']['checkboxuk_'.$i] = $this->getCheckpostUk($i);
+    }
+
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => t('Submit'),
+    ];
+
+    return $form;
+  }
+
+  /**
+   * AJAX callback to update text fields.
+   */
+  public function updateFieldsAjaxCallback(array &$form, FormStateInterface $form_state) {
+    return $form['fields_wrapper'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+  
+   $str = "<Numbers>";
+   $selection_value = $form_state->getValue('selection',1);
+   for($i=1; $i<=$selection_value;$i++)
+   {
+     $title = $form_state->getValue('text_field_'.$i);
+     $checkbox_value = $form_state->getValue('checkpost'.$i); 
+     foreach($checkbox_value as $value)
+     {
+    
+        if($value ==='c')
+        {
+          $str = $str."<Number Type={$value}>
+			    <Title>{$title}</Title>
+		      </Number>";
+          
+        }
+        elseif($value === 'L')
+        {
+          $str = $str."<Number Type={$value}>
+			    <Title>{$title}</Title>
+		      </Number>";
+         
+        }
+        elseif($value === 'W')
+        {
+          $str = $str."<Number Type={$value}>
+			    <Title>{$title}</Title>
+		      </Number>";
+         
+        }
+        elseif($value==='S')
+        {
+          $str = $str."<Number Type={$value}>
+			    <Title>{$title}</Title>
+		      </Number>";
+         
+        }
+        elseif($value==='N')
+        {
+          $str = $str."<Number Type={$value}>
+			    <Title>{$title}</Title>
+		      </Number>";
+         
+        }
+     }
+  }
+  $str = $str."</Numbers>";
+  \Drupal::logger('ample')->info('<pre>'.$str.'</pre>');
+   
+  }
+  public function getCheckpostUk($i)
+  {
+    $form['checkpost'.$i] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('commencement number(s) required'),
+      "#default_value" => [],
+      '#options' => array(
+       'c' => 'Commencement',
+       'L' => 'Legal',
+       'W' => 'Welgh',
+       'S' => 'Scotland',
+       'N' => 'Northern Ireland'
       ),
-    ),
-  );
-
-  $form['text_field_2'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Text Field 2'),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="select_field"]' => array('value' => 2),
-      ),
-    ),
-  );
+      "#states" => [
+        "visible" => [
+          ":input[name = 'select_country']" => ['value' => 1]
+        ]
+      ]
+    ];
+    return $form; 
+  }
 }
+this is the code which i have written what was the objective is after user select checkbox we are generate xml like if user given t
+title as hiii and select option commencement and legal the xml should be like this 
+
+<numbers>
+<number Type='C'>
+<title>hii</title>
+</number>
+<number Type='L'>
+<title>hii</title>
+</number>
+</numbers>
+
+i have tried with var_dump but it display only string length as 234 from your assumption will it produces my expected result
