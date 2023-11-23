@@ -1,37 +1,9 @@
-$this->info = "<h4>if you have forgotten password please enter your email address below and <br>
-               you will be sent instructions on how to create a new password.<br><br><h4>";
-        
-               $form['fields']=[
-                "#type"=>'fieldset'
-               ];
-
-            $form['fields']['info']=[
-                "#type"=>"markup",
-                "#markup"=>$this->info
-            ];
-          $this->info="Email address <span id ='asterisk'>*</span>";
-           $form ['fields']['email'] =[
-            '#type' => 'textfield',
-            '#title' => $this->t($this->info),
-            '#size' => 60,
-            '#required'=>TRUE
-           ];
-
-           $form['button_container'] = [
-            '#type'=>'container',
-            '#attributes'=>[
-                'class'=>['button-container']
-            ]
-            ];
-            $this->info="<span id='prev'><strong>cancel</strong></span>";
-            $form['button_container']['cancel_button'] = [
-                "#type"=>'submit',
-                "#value"=>$this->t($this->info),
-                "#submit"=>['::cancelButtonSubmit']
-            ];
-            $this->info = "<span id='next'><strong>Request password reset</strong></span>";
-            $form['button_container']['submit_button'] = [
-                      '#type'=>'submit',
-                      '#value'=> $this->t($this->info),
-                      
-            ];
+ $form['exceptedDate'] = [
+      "#type" => 'datetime',
+      '#date_date_element'=>'date',
+      '#date_time_element' => 'none',
+      '#date_format' => 'd/m/Y',
+      '#date_year_range' => 'c-100:c+1',
+      '#default_value'=>$form_state->getValue('exceptedDate',new DrupalDateTime())
+      
+  ];
