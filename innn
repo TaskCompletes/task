@@ -1,9 +1,5 @@
- $form['exceptedDate'] = [
-      "#type" => 'datetime',
-      '#date_date_element'=>'date',
-      '#date_time_element' => 'none',
-      '#date_format' => 'd/m/Y',
-      '#date_year_range' => 'c-100:c+1',
-      '#default_value'=>$form_state->getValue('exceptedDate',new DrupalDateTime())
-      
-  ];
+    $form['dobnew'] = [
+        '#type' => 'datetime',
+        '#title' => t('Birth Date new'),
+        '#date_time_element'=>'none',
+        ];
