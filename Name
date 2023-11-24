@@ -1,79 +1,29 @@
 <?php
+include 'vendor/autoload.php';
+use Number\NumberRequest;
+use Number\Request;
+$serializer = JMS\Serializer\SerializerBuilder::create()->build();
+$numberRequest = new NumberRequest();
+$numbers=$numberRequest->setStatus('yes');
+$request = new Request();
+$request->setRequestedBy('afia.kent@tso.co.uk');
+$request->setReason('This is a reason');
+$numberRequest->setRequest($request);
+$numbers = $request;
+$resp = $serializer->serialize($numbers,'xml');
+var_dump($resp);
+<?php
 
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\HtmlCommand;
+namespace  Number;
 
+use  Number\NumberRequest\NumberRequestAType;
+use JMS\Serializer\Annotation\XmlRoot;
 /**
- * Implements a simple form with AJAX functionality.
+ * @XmlRoot("NumberRequest")
  */
-class CustomAjaxExampleForm extends FormBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getFormId() {
-    return 'custom_ajax_example_form';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['select_branch_name'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Select Branch Name'),
-      '#options' => [
-        '1' => $this->t('CSE'),
-        '2' => $this->t('IT'),
-        '3' => $this->t('EEE'),
-        '4' => $this->t('ECE'),
-      ],
-      '#ajax' => [
-        'callback' => [$this, 'customAjaxCallback'],
-        'wrapper' => 'edit-output',
-        'progress' => [
-          'type' => 'throbber',
-          'message' => $this->t('Verifying entry...'),
-        ],
-      ],
-    ];
-
-    $form['output'] = [
-      '#type' => 'textfield',
-      '#size' => '60',
-      '#disabled' => TRUE,
-      '#value' => 'Branch Names',
-      '#prefix' => '<div id="edit-output">',
-      '#suffix' => '</div>',
-    ];
-
-    $form['submit'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Submit'),
-    ];
-
-    return $form;
-  }
-
-  /**
-   * AJAX callback function.
-   */
-  public function customAjaxCallback(array &$form, FormStateInterface $form_state) {
-    $selectedValue = $form_state->getValue('select_branch_name');
-    $selectedText = $form['select_branch_name']['#options'][$selectedValue];
-
-    $response = new AjaxResponse();
-    $response->addCommand(new HtmlCommand('#edit-output', $selectedText));
-
-    return $response;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Handle form submission if needed.
-  }
+class NumberRequest extends NumberRequestAType
+{
 }
+
+
+above code doesnot apply xmlrooot 
