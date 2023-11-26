@@ -1,42 +1,21 @@
-Drupal\hiii\Number\Request\RequestAType:
+Drupal\hiiiworld\Model\Number\Department\DepartmentAType:
     properties:
-        requestedBy:
+        departmentIdentifier:
             expose: true
             access_type: public_method
-            serialized_name: RequestedBy
-            accessor:
-                getter: getRequestedBy
-                setter: setRequestedBy
-            xml_attribute: true
-            type: string
-        departmentidentifier:
-            expose: true
-            access_type: public_method
-            serialized_name: Identifier
+            serialized_name: identifier
             accessor:
                 getter: getDepartmentIdentifier
                 setter: setDepartmentIdentifier
             xml_attribute: true
             type: string
-        department:
+        departmentName:
             expose: true
             access_type: public_method
-            serialized_name: Department
-            xml_element:
-                cdata: false
-                namespace: 'http://publishing.legislation.gov.uk/number'
+            serialized_name: null
             accessor:
-                getter: getDepartment
-                setter: setDepartment
-            type: string
-        reason:
-            expose: true
-            access_type: public_method
-            serialized_name: Reason
-            xml_element:
+                getter: getDepartmentName
+                setter: setDepartmentName
+            xml_value:
                 cdata: false
-                namespace: 'http://publishing.legislation.gov.uk/number'
-            accessor:
-                getter: getReason
-                setter: setReason
             type: string
