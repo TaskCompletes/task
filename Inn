@@ -11,25 +11,20 @@
     $(function() {
       $("#datepicker").datepicker({
         dateFormat: 'dd/mm/yy',
-        showOn: "button",
-        buttonImage: "calendar.png", // Add your image URL or use the built-in calendar icon
-        buttonImageOnly: true,
+        showOn: "both",
         buttonText: "Select date",
         onSelect: function(dateText) {
-          $("#dateInput").val(dateText);
+          $("#datepicker").val(dateText);
         }
-      });
-
-      // Handle button click
-      $("#showCalendarButton").click(function() {
-        $("#datepicker").datepicker("show");
       });
     });
   </script>
 </head>
 <body>
 
-  <p>Select a date: <input type="text" id="datepicker"><button id="showCalendarButton">Show Calendar</button></p>
+  <label for="datepicker">Select a date:</label>
+  <input type="text" id="datepicker">
+  <button id="showCalendarButton">Select date</button>
 
 </body>
 </html>
