@@ -1,38 +1,27 @@
-<?php
-namespace Drupal\rsvplist\Form;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Picker Example</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $(function() {
+      $("#datepicker").datepicker({
+        dateFormat: 'dd/mm/yy', // Update the date format
+        onSelect: function(dateText) {
+          $("#dateInput").val(dateText);
+        }
+      });
+    });
+  </script>
+</head>
+<body>
 
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\user\Form\UserPasswordForm;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+  <p>Select a date: <input type="text" id="datepicker"></p>
+  <p>Selected date: <input type="text" id="dateInput" readonly></p>
 
-class Resetform extends UserPasswordForm {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getFormId() {
-    return "reset_form_password_page";
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildForm($form, $form_state);
-
-    // Check if form was just submitted
-    $form_values = $form_state->getValues();
-    if (isset($form_values['op'])) {
-      // Form was submitted, hide the email field and show the message.
-      $form['name']['#access'] = FALSE;
-      $form['actions']['submit']['#access'] = FALSE;
-
-      $form['reset_message'] = [
-        '#markup' => '<div class="reset-message">' . $this->t('An email has been sent to reset your password.') . '</div>',
-      ];
-    }
-
-    return $form;
-  }
-}
+</body>
+</html>
