@@ -30,7 +30,6 @@
 <body>
 
   <p>Select a date: <input type="text" id="datepicker"><button id="showCalendarButton">Show Calendar</button></p>
-  <p>Selected date: <input type="text" id="dateInput" readonly></p>
 
 </body>
 </html>
