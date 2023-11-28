@@ -1,94 +1,24 @@
 <?php
-namespace Drupal\ample\Form;
-use Drupal\Core\Form\FormBase;
+use Drupal\ample\Event\UserLoginEvent;
 use Drupal\Core\Form\FormStateInterface;
-
 /**
- * Implements a simple form with real-time updates.
+ * Implements hook_element_info_alter().
  */
-class AmpleForm extends FormBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getFormId() {
-    return 'your_form_id';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['selection'] = [
-      '#type' => 'select',
-      '#title' => t('Select a number'),
-      '#options' => array_combine(range(1, 10), range(1, 10)),
-      '#default_value' => $form_state->getValue('selection', 1),
-      '#ajax' => [
-        'callback' => '::updateFieldsAjaxCallback',
-        'wrapper' => 'fields-wrapper',
-        'event' => 'change',
-      ],
-    ];
-    $form['fields_wrapper'] = [
-      '#type' => 'container',
-      '#attributes' => ['id' => 'fields-wrapper'],
-    ];
-
-    $selection_value = $form_state->getValue('selection', 1);
-
-    for ($i = 1; $i <= $selection_value; $i++) {
-      $form['fields_wrapper']['text_field_' . $i] = [
-        '#type' => 'textfield',
-        '#title' => t('Text field @num', ['@num' => $i]),
-      ];
-      $form['fields_wrapper']['checkboxuk_'.$i] = $this->getCheckpostUk($i);
-    }
-
-    $form['submit'] = [
-      '#type' => 'submit',
-      '#value' => t('Submit'),
-    ];
-
-    return $form;
-  }
-
-  /**
-   * AJAX callback to update text fields.
-   */
-  public function updateFieldsAjaxCallback(array &$form, FormStateInterface $form_state) {
-    return $form['fields_wrapper'];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
- 
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    
-    var_dump($form_state->getValues());
-    exit;
-  }
-  public function getCheckpostUk($i)
-  {
-    $form['checkpost'.$i] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('commencement number(s) required'),
-      "#default_value" => [],
-      '#options' => array(
-       'c' => 'Commencement',
-       'L' => 'Legal',
-       'W' => 'Welgh',
-       'S' => 'Scotland',
-       'N' => 'Northern Ireland'
-      ),
-    ];
-    return $form; 
-  }
+function ample_element_info_alter(array &$types){
+  \Drupal::messenger()->addMessage(" hii from date try");
+  $types['datetime']['#process'][] = 'ample_datetime_set_format';
 }
+/**
+ * Element process callback for datetime fields.
+ */
+function ample_datetime_set_format($element){
+  // Use d/m/Y format.
+  \Drupal::messenger()->addMessage("changing date format");
+  echo "from module fiel";
+  \Drupal::logger('ample')->info("from callback");
+  $element['date']['#attributes']['data-drupal-date-format'] = ['d/m/Y'];
+  $element['date']['#date_date_format'] = 'd/m/Y';
+  $element['date']['#attributes']['title'] = t('Enter a valid date - e.g. @format', [
+  '@format' => (new \DateTime())->format('d/m/Y'),
+  ]);return $element;
+  }
