@@ -1,23 +1,10 @@
-$form['country'] = [
-      '#type'=> 'radios',
-      '#title' => $this->t('series'),
-      '#options' => [
-        'dom' => 'Series',
-        'and' => 'Series',
-        'reland' => ' SR '
-      ],
+ $form['sequencedate']['expecteddate'] = [
+      '#type' => 'date',
+      '#title' => $this->t('Date you expect to send instruments(s) for registration'),
+      '#date_date_format' => 'd/m/Y',
+      '#suffix' =>  $this->t('e.g. dd/mm/yyyy'),
       '#attributes' => [
-        'class' => ['select-country']
+        'class' => ['expecteddate']
       ],
-      '#suffix'=> $this->t('t'),
-      '#default_value' => $preferredLocation ,
-        '#ajax' => [
-          'callback' => '::updateFieldsAjaxCallback',
-          'progress' => array('type' => 'none'),
-          'wrapper' => 'fields-wrapper',
-          'event' => 'change',
-        ],
-  
     ];
-
-i am want the radios button to be displayed in a sameline and you should not inlcude id we can use class as much as we want
+ i want this dd/mm/yyyy in a next line without using <br> tag
