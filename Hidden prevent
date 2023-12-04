@@ -1,61 +1,130 @@
-php
-Date	Friday, November 17, 2023 - 09:09
-User	narkunan
-Location	http://localhost/drupal/demos/web/rsvpforget?_wrapper_format=drupal_ajax&ajax_form=1
-Referrer	http://localhost/drupal/demos/web/rsvpforget
-Message	Symfony\Component\HttpKernel\Exception\HttpException: The specified #ajax callback is empty or not callable. in Drupal\Core\Form\FormAjaxResponseBuilder->buildResponse() (line 67 of C:\xampp\htdocs\drupal\demos\web\core\lib\Drupal\Core\Form\FormAjaxResponseBuilder.php).
-Severity	Error
-Hostname	::1
-Operations	
-above is the error which i am getting for below code
-public function buildForm(array $form, FormStateInterface $form_state)
-     {
-      $form['select_branch_name'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Select Branch Name'),
-        '#options' => [
-          '1' => $this->t('CSE'),
-          '2' => $this->t('IT'),
-          '3' => $this->t('EEE'),
-          '4' => $this->t('ECE'),
-        ],
-        '#ajax' => [
-          'callback' => '::myAjaxCallback', // Use :: when calling a class method.
-          'disable-refocus' => FALSE, // Or TRUE to prevent re-focusing on the triggering element.
-          'event' => 'change',
-          'wrapper' => 'edit-output', // wrapper element is updated with this AJAX callback.
-          'progress' => [
-            'type' => 'throbber',
-            'message' => $this->t('Verifying entry...'),
-          ],
-        ]
-      ];
-      // Create a textbox that will be updated
-      // when the user selects an item from the select box above.
-      $form['output'] = [
-        '#type' => 'textfield',
-        '#size' => '60',
-        '#disabled' => TRUE,
-        '#value' => 'Branch Names',      
-        '#prefix' => '<div id="edit-output">',
-        '#suffix' => '</div>',
-      ];
-  
-      // Create the submit button.
-      $form['submit'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Submit'),
-      ];
-      return $form; 
+.request-advance-number-form {
+    background-color: $form-color;
+    width: 60%;
+		padding:12px;
+
+    .description {
+			font-size:0.75em;
+			font-weight: normal;
+      margin-bottom: 10px;
+		}
+
+    .dateformat {
+      margin-left: 27%;
     }
-    public function myAjaxCallback(array &$form, FormStateInterface $form_state) {
-      // Prepare our textfield. check if the select_branch_name has a selected option.
-      if ($selectedValue = $form_state->getValue('select_branch_name')) {
-          // Get the text of the selected option.
-          $selectedText = $form['select_branch_name']['#options'][$selectedValue];
-          // Place the text of the selected option in our textfield.
-          $form['output']['#value'] = $selectedText;
-      }
-      // Return the prepared textfield.
-      return $form['output']; 
+
+    .requestinfo {
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 15px;
     }
+
+    .squenceanddate {
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        width: 95%;
+        font-size: 15px;
+        margin: 0px;
+        margin-top: 25px;
+    }
+
+    .expecteddate {
+        width: 120px;
+    }
+
+    .select-country input[type="radio"] {
+      display: inline-block;
+      margin-right: 10px;
+      accent-color: #84777700;
+    }
+
+		.checkboxcommencement input[type="checkbox"] {
+			display: inline-block;
+			margin-right: 10px;
+		}
+    
+    .select-country .country-radio {
+        display: inline-block;
+    }
+		fieldset.select-country {
+			margin-bottom: 0px;
+	  }
+    .requestnumber {
+      margin-left: 106%;
+    }
+    .requestnumber::after {
+      @include rightarrow;
+    }
+    .notification {
+    left: 63%;
+    font-size: 12px;
+    margin-top: -30px;
+    width: 317px;
+    padding: 0px;
+    background-color: white;
+    position: absolute;
+    }
+    .info-plain {
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .info-plain::after {
+      content: '\a';
+      white-space: pre;
+    }
+    .reasondescription {
+      font-size: 13px;
+      font-style: italic;
+    }
+    .infoplain {
+      font-weight: bold;
+    }
+    .reasonarea {
+      width: 502px;
+      height: 77px;
+      border-color: $black;
+      border-radius: 1px;
+    }
+    
+}
+div.select-country {
+    display: flex;
+    justify-content: space-between;
+    width: 145%;
+}
+
+.select-country .panel-block > div {
+  display: flex;
+  justify-content: space-between;
+  width: 150%;
+  .label{
+	 font-size: 12px;
+	font-weight: normal;
+}
+}
+.checkboxcommencement .panel-block > div {
+	display: flex;
+	justify-content: space-between;
+	width: 130%;
+	.label{
+		font-size: 12px;
+		font-weight: normal;
+		display: flex;
+		justify-content: space-between;
+	}
+
+}
+.checkboxcommencementscot .panel-block > div {
+	display: flex;
+	justify-content: space-between;
+	width: 65%;
+	.label{
+		font-size: 12px;
+		font-weight: normal;
+		display: flex;
+		justify-content: space-between;
+	}
+
+}
+please remove duplicate code without affecting functionality
