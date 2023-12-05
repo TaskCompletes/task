@@ -1,24 +1,47 @@
-<?php
-use Drupal\ample\Event\UserLoginEvent;
-use Drupal\Core\Form\FormStateInterface;
-/**
- * Implements hook_element_info_alter().
- */
-function ample_element_info_alter(array &$types){
-  \Drupal::messenger()->addMessage(" hii from date try");
-  $types['datetime']['#process'][] = 'ample_datetime_set_format';
-}
-/**
- * Element process callback for datetime fields.
- */
-function ample_datetime_set_format($element){
-  // Use d/m/Y format.
-  \Drupal::messenger()->addMessage("changing date format");
-  echo "from module fiel";
-  \Drupal::logger('ample')->info("from callback");
-  $element['date']['#attributes']['data-drupal-date-format'] = ['d/m/Y'];
-  $element['date']['#date_date_format'] = 'd/m/Y';
-  $element['date']['#attributes']['title'] = t('Enter a valid date - e.g. @format', [
-  '@format' => (new \DateTime())->format('d/m/Y'),
-  ]);return $element;
-  }
+<form class="forced-password-reset-form" data-drupal-selector="forced-password-reset-form" action="/user/4/password?check_logged_in=1" method="post" id="forced-password-reset-form" accept-charset="UTF-8">
+  <div class="forced_password_container field js-form-wrapper form-wrapper" data-drupal-selector="edit-forcedpasswordcontainer" id="edit-forcedpasswordcontainer"><p class="info"> Profile </p><div class="js-form-item form-item js-form-type-password form-item-currentpassword js-form-item-currentpassword is-danger is-outlined">
+            <label for="edit-currentpassword" class="label control-label js-form-required form-required">Current password        <span class="asterisk">*</span>
+      </label>
+                  
+<div class="control">
+    <input class="password_reset_field form-text required error input" data-drupal-selector="edit-currentpassword" type="password" id="edit-currentpassword" name="currentpassword" size="60" maxlength="128" required="required" aria-required="true" aria-invalid="true" style="
+    /* border: 2px solid red; */
+">
+    </div>
+                    <div class="form-item--error-message">
+            Your current password is missing or incorrect, it's required to change the Password
+        </div>
+        </div>
+<div id="edit-newpassword" class="js-form-item form-item js-form-type-password-confirm form-item-newpassword js-form-item-newpassword form-no-label">
+                <div class="js-form-item form-item js-form-type-password form-item-newpassword-pass1 js-form-item-newpassword-pass1">
+            <label for="edit-newpassword-pass1" class="label control-label js-form-required form-required">Password        <span class="asterisk">*</span>
+      </label>
+                  
+<div class="control password-parent">
+    <input class="password-field js-password-field password_reset_field form-text required input" autocomplete="new-password" data-drupal-selector="edit-newpassword-pass1" type="password" id="edit-newpassword-pass1" name="newpassword[pass1]" size="60" maxlength="128" required="required" aria-required="true" data-once="password">
+    <div class="password-strength">
+        <div class="password-strength__meter" data-drupal-selector="password-strength-meter"><div class="password-strength__indicator is-strong" data-drupal-selector="password-strength-indicator" style="width: 94%;"></div></div>
+        <div aria-live="polite" aria-atomic="true" class="password-strength__title">Password strength: <span class="password-strength__text" data-drupal-selector="password-strength-text">Strong</span></div>
+      </div></div>
+                </div>
+<div class="js-form-item form-item js-form-type-password form-item-newpassword-pass2 js-form-item-newpassword-pass2">
+            <label for="edit-newpassword-pass2" class="label control-label js-form-required form-required">Confirm password        <span class="asterisk">*</span>
+      </label>
+                  
+<div class="control confirm-parent">
+    <input class="password-confirm js-password-confirm password_reset_field form-text required input" autocomplete="new-password" data-drupal-selector="edit-newpassword-pass2" type="password" id="edit-newpassword-pass2" name="newpassword[pass2]" size="60" maxlength="128" required="required" aria-required="true">
+    <div aria-live="polite" aria-atomic="true" class="password-confirm-message" data-drupal-selector="password-confirm-message" style="visibility: visible;">Passwords match: <span data-drupal-selector="password-match-status-text" class="error">no</span></div></div><div class="password-suggestions" style="display: none;"></div>
+                </div>
+
+                </div>
+<div id="password suggestions" class="password-suggestions"><p class="info">Minimum Password Criteria</p><p>Please ensure your password has:</p><ul><li>7 or more characters<span class="good"></span></li><li>1 or more lower case characters<span class="good"></span></li><li>1 or more upper case characters</li><li>1 or more numbers</li></ul></div></div>
+
+<div class="control">
+  <button class="forced_password_button button js-form-submit form-submit is-success" data-drupal-selector="edit-forcebutton" type="submit" id="edit-forcebutton" name="op" value="save">
+              <span>save</span>
+      </button>
+</div><input autocomplete="off" data-drupal-selector="form-nznw4fbkpu4wg2l3dnuro5iajf-st6xdanrefimy8ok" type="hidden" name="form_build_id" value="form-nzNW4FbKPu4Wg2l3dNurO5iAjF-sT6XDaNREfimY8ok">
+<input data-drupal-selector="edit-forced-password-reset-form-form-token" type="hidden" name="form_token" value="dGKJBk7xPCkyetZBf-l0vjD6KBhIkorkxxZar0gFjoQ">
+<input data-drupal-selector="edit-forced-password-reset-form" type="hidden" name="form_id" value="forced_password_reset form">
+
+</form>
