@@ -44,4 +44,4 @@
 <input data-drupal-selector="edit-forced-password-reset-form-form-token" type="hidden" name="form_token" value="dGKJBk7xPCkyetZBf-l0vjD6KBhIkorkxxZar0gFjoQ">
 <input data-drupal-selector="edit-forced-password-reset-form" type="hidden" name="form_id" value="forced_password_reset form">
 
-</form>
+</form>in this code if the input field contain error class then we need to change the input field background
