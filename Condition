@@ -1,10 +1,11 @@
- $form['sequencedate']['expecteddate'] = [
-      '#type' => 'date',
-      '#title' => $this->t('Date you expect to send instruments(s) for registration'),
-      '#date_date_format' => 'd/m/Y',
-      '#suffix' =>  $this->t('e.g. dd/mm/yyyy'),
-      '#attributes' => [
-        'class' => ['expecteddate']
-      ],
-    ];
- i want this dd/mm/yyyy in a next line without using <br> tag
+.notification {
+    left: 63%;
+    font-size: 12px;
+    margin-top: -30px;
+    width: 317px;
+    padding: 0px;
+    background-color: $white;
+    position: absolute;
+  }
+
+please avoid using position absolute and try to retain the same style 
