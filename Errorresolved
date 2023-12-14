@@ -1,34 +1,13 @@
-<?php
-use Drupal\ample\Event\UserLoginEvent;
-function ample_user_login($account) {
-   
-    \Drupal::messenger()->addMessage("user login is happening");
-     if($account->isActive())
-     {
-        $UserLoginEvents = new UserLoginEvent();
-        $UserLoginEvents->checkforpasswordreset(4);
-     }
-  
-}
-in this code i have implemented userloginhook and when user login it instantiate userloginevent class 
-and call a method called checkforpasswordreset with the parameter of some number
-<?php
-
-namespace Drupal\ample\Event;
-
-class UserLoginEvent {
-    
-    public function checkforpasswordreset($num)
-    {
-        var_dump($num);
-        if($num == 3) {
-          \Drupal::messenger()->addStatus("they need to be change password");
-          return null;
-        }
-        else {
-          \Drupal::messenger()->addStatus("from form builder");
-          return \Drupal::formBuilder()->getForm("Drupal\ample\Form\ampleForm");
-        }
+ try {
+      $this->PasswordResetService->passwordResetServiceCheckToken($token);
+      return $this->FormBuilders->getForm('PasswordReset');
     }
-}
-but when i the codes message is printing but the form is not returning
+    catch (ClientException $e) {
+      $message = $e->getApiExceptionBody()?->getClass();
+      throw new HttpException(500, '', $e);
+    }
+    catch(HttpException $e) {
+      return $this->PasswordResetService->errorMessage($e->getCode());
+    }
+
+this code stops application when it thow exception can you handle it properly
