@@ -1,13 +1,1 @@
- try {
-      $this->PasswordResetService->passwordResetServiceCheckToken($token);
-      return $this->FormBuilders->getForm('PasswordReset');
-    }
-    catch (ClientException $e) {
-      $message = $e->getApiExceptionBody()?->getClass();
-      throw new HttpException(500, '', $e);
-    }
-    catch(HttpException $e) {
-      return $this->PasswordResetService->errorMessage($e->getCode());
-    }
-
-this code stops application when it thow exception can you handle it properly
+<span class="password-strength__text" data-drupal-selector="password-strength-text"></span>
