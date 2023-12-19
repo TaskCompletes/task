@@ -1,6 +1,6 @@
-<div class="content-title" style="display: flow;/* margin-right: 0%; *//* justify-content: space-between; *//* width: 100%; */">
-    <h1 class="title">Advanced number request form
-             <span class="subtitle" style=""> This is my subtitle</span>
-          </h1>
-  </div>
-i want both the title and subtitle in same line without with some space between them
+<h1 class="title">
+    <span class="title-text">Advanced number request form
+      <span class="request-number-subtitle"> Enter the quantity, title(s) and reason for requesting advanced numbers(s)</span>
+    </span>
+  </h1>
+i want space between title and subtitle
