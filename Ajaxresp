@@ -1,9 +1,6 @@
-{{ title_prefix }}
-{% if title %}
-  <h1{{ title_attributes }}>{{ title }}
-    {% if subtitle %}
-      <span class="subtitle">{{ subtitle }}</span>
-    {% endif %}
-  </h1>
-{% endif %}
-{{ title_suffix }} can you modify the twig template to display both title and subtitle in same line with space between them
+<div class="content-title" style="display: flow;/* margin-right: 0%; *//* justify-content: space-between; *//* width: 100%; */">
+    <h1 class="title">Advanced number request form
+             <span class="subtitle" style=""> This is my subtitle</span>
+          </h1>
+  </div>
+i want both the title and subtitle in same line without with some space between them
