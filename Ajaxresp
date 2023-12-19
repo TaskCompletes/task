@@ -1,5 +1,9 @@
-<h1 class="title"> number request
-          <span id="request-subtitle">This is my subtitle</span>
-      </h1>
-
-we need to display both number request and this is my subtitle display on same line with space between them
+{{ title_prefix }}
+{% if title %}
+  <h1{{ title_attributes }}>{{ title }}
+    {% if subtitle %}
+      <span class="subtitle">{{ subtitle }}</span>
+    {% endif %}
+  </h1>
+{% endif %}
+{{ title_suffix }} can you modify the twig template to display both title and subtitle in same line with space between them
