@@ -1,11 +1,11 @@
-.notification {
-    left: 63%;
-    font-size: 12px;
-    margin-top: -30px;
-    width: 317px;
-    padding: 0px;
-    background-color: $white;
-    position: absolute;
-  }
+<Definitions URI="https://hii this" xmlns="http://definition" xmlns:ns2="http://bundle">
+    <Documents>
+        <Document Type="ukpga" DisplayName="UK Public General Act" Code="20100" MainDocument="true">
+            <Numbers>
+                <Number Type="ukpga" Set="UnitedKingdom" Use="Required"/>
+                <Number Type="ISBN" Set="ukpga" Use="Required"/>
+            </Numbers>
+        </Document>
+</Definitions>
 
-please avoid using position absolute and try to retain the same style 
+write a config.yml for jms serializer to deserialize the above xml
