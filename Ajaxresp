@@ -1,13 +1,5 @@
 Drupal\model\Model\Definition\Definitions:
-    xml_root_name: Definitions
-    xml_root_namespace: 'http://tempo.traveller/def'
-
-this definition.yml file in jms serializer now i am want to add another namespace fro the root element that should 
-generate below namespace
-
-xmlns:ns2 = 'https://tempo.com'
-
-and xml should look like this
-
-<Definitions xmlns="http://tempo.traveller/def" xmlns:ns2="http://tempo.com">
-</Definitions>
+  xml_root_name: Definitions
+  xml_root_namespace: 'http://tempo.traveller/def'
+  xml_namespaces:
+    xmlns:ns2: 'https://tempo.com'
