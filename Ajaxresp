@@ -1,6 +1,13 @@
-<h1 class="title">
-    <span class="title-text">Advanced number request form
-      <span class="request-number-subtitle"> Enter the quantity, title(s) and reason for requesting advanced numbers(s)</span>
-    </span>
-  </h1>
-i want space between title and subtitle
+Drupal\model\Model\Definition\Definitions:
+    xml_root_name: Definitions
+    xml_root_namespace: 'http://tempo.traveller/def'
+
+this definition.yml file in jms serializer now i am want to add another namespace fro the root element that should 
+generate below namespace
+
+xmlns:ns2 = 'https://tempo.com'
+
+and xml should look like this
+
+<Definitions xmlns="http://tempo.traveller/def" xmlns:ns2="http://tempo.com">
+</Definitions>
