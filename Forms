@@ -1,170 +1,28 @@
 <?php
-namespace Drupal\ample\Form;
+namespace Drupal\Submission\Service;
 
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\model\Model\Definition\Definitions;
 
-/**
- * Implements a simple form with real-time updates.
- */
-class AmpleForm extends FormBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getFormId() {
-    return 'your_form_id';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['selection'] = [
-      '#type' => 'select',
-      '#title' => t('Select a number'),
-      '#options' => array_combine(range(1, 10), range(1, 10)),
-      '#default_value' => $form_state->getValue('selection', 1),
-      '#ajax' => [
-        'callback' => '::updateFieldsAjaxCallback',
-        'wrapper' => 'fields-wrapper',
-        'event' => 'change',
-      ],
-    ];
-    $form['country'] = [
-      "#type"=> "radios",
-      '#options' => [
-        1 => "uk",
-        2 => "scot",
-        3 => "ire"
-      ],
-
-    ];
-    $form['fields_wrapper'] = [
-      '#type' => 'container',
-      '#attributes' => ['id' => 'fields-wrapper'],
-    ];
-
-    $selection_value = $form_state->getValue('selection',1);
-
-    for ($i = 1; $i <= $selection_value; $i++) {
-      $form['fields_wrapper']['text_field_' . $i] = [
-        '#type' => 'textfield',
-        '#title' => t('Text field @num', ['@num' => $i]),
-        //'#required' => TRUE,
-      ];
-      $form['fields_wrapper']['checkboxuk_'.$i] = $this->getCheckpostUk($i);
-    }
-
-    $form['submit'] = [
-      '#type' => 'submit',
-      '#value' => t('Submit'),
-    ];
-
-    return $form;
-  }
-
-  /**
-   * AJAX callback to update text fields.
-   */
-  public function updateFieldsAjaxCallback(array &$form, FormStateInterface $form_state) {
-    return $form['fields_wrapper'];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+class Available {
+  protected  $available = [];
   
-   $str = "<Numbers>";
-   $selection_value = $form_state->getValue('selection',1);
-   for($i=1; $i<=$selection_value;$i++)
-   {
-     $title = $form_state->getValue('text_field_'.$i);
-     $checkbox_value = $form_state->getValue('checkpost'.$i); 
-     foreach($checkbox_value as $value)
-     {
-    
-        if($value ==='c')
-        {
-          $str = $str."<Number Type={$value}>
-			    <Title>{$title}</Title>
-		      </Number>";
-          
-        }
-        elseif($value === 'L')
-        {
-          $str = $str."<Number Type={$value}>
-			    <Title>{$title}</Title>
-		      </Number>";
-         
-        }
-        elseif($value === 'W')
-        {
-          $str = $str."<Number Type={$value}>
-			    <Title>{$title}</Title>
-		      </Number>";
-         
-        }
-        elseif($value==='S')
-        {
-          $str = $str."<Number Type={$value}>
-			    <Title>{$title}</Title>
-		      </Number>";
-         
-        }
-        elseif($value==='N')
-        {
-          $str = $str."<Number Type={$value}>
-			    <Title>{$title}</Title>
-		      </Number>";
-         
-        }
-     }
-  }
-  $str = $str."</Numbers>";
-  \Drupal::logger('ample')->info('<pre>'.$str.'</pre>');
-   
-  }
-  public function getCheckpostUk($i)
-  {
-    $form['checkpost'.$i] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('commencement number(s) required'),
-      "#default_value" => [],
-      '#options' => array(
-       'c' => 'Commencement',
-       'L' => 'Legal',
-       'W' => 'Welgh',
-       'S' => 'Scotland',
-       'N' => 'Northern Ireland'
-      ),
-      "#states" => [
-        "visible" => [
-          ":input[name = 'select_country']" => ['value' => 1]
-        ]
-      ]
+  protected function initializeList(): void {
+  
+    $this->availableBundles = [
+      JurisdictionName::UNITEDKINGDOM => [],
+      JurisdictionName::SOCTLAND => [],
     ];
-    return $form; 
   }
 }
-this is the code which i have written what was the objective is after user select checkbox we are generate xml like if user given t
-title as hiii and select option commencement and legal the xml should be like this 
+<?php
 
-<numbers>
-<number Type='C'>
-<title>hii</title>
-</number>
-<number Type='L'>
-<title>hii</title>
-</number>
-</numbers>
+namespace Drupal\Submission\Service;
 
-i have tried with var_dump but it display only string length as 234 from your assumption will it produces my expected result
+enum Name {
+    
+  const UNITEDKINGDOM = 'United Kingdom';
+  
+  const SOCTLAND = 'Scotland';
+}
+
+this code give error that class Drupal\Submission\Service\Name not found
