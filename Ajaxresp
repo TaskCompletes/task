@@ -1,5 +1,34 @@
-Drupal\model\Model\Definition\Definitions:
-  xml_root_name: Definitions
-  xml_root_namespace: 'http://tempo.traveller/def'
-  xml_namespaces:
-    xmlns:ns2: 'https://tempo.com'
+<?php
+
+enum RegisterModel : string{
+    case unitedkingdom = 'United Kingdom' ;
+    case scotland = 'Scotland';
+    case wales = 'Wale';
+    case Northernireland = 'Norther IReland' ;
+}
+
+class Register {
+    public function doStuff() {
+        $hiii =[ 
+          RegisterModel::unitedkingdom => [],
+          RegisterModel::scotland => [],
+          RegisterModel::wales => []
+        ];
+        var_dump($hiii);
+    }
+}
+
+$hii = new Register();
+$hii->doStuff();
+above program cause below error
+PHP Fatal error:  Uncaught TypeError: Illegal offset type in C:\xampp\htdocs\example\registerModel.php:13
+Stack trace:
+#0 C:\xampp\htdocs\example\registerModel.php(22): Register->doStuff()
+#1 {main}
+  thrown in C:\xampp\htdocs\example\registerModel.php on line 13
+
+Fatal error: Uncaught TypeError: Illegal offset type in C:\xampp\htdocs\example\registerModel.php:13
+Stack trace:
+#0 C:\xampp\htdocs\example\registerModel.php(22): Register->doStuff()
+#1 {main}
+  thrown in C:\xampp\htdocs\example\registerModel.php on line 13
