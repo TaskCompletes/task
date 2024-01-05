@@ -1,34 +1,76 @@
-<?php
+ **Here's how you can set up a custom handler in JMS Serializer:**
 
-enum RegisterModel : string{
-    case unitedkingdom = 'United Kingdom' ;
-    case scotland = 'Scotland';
-    case wales = 'Wale';
-    case Northernireland = 'Norther IReland' ;
-}
+**1. Create a Custom Handler Class:**
 
-class Register {
-    public function doStuff() {
-        $hiii =[ 
-          RegisterModel::unitedkingdom => [],
-          RegisterModel::scotland => [],
-          RegisterModel::wales => []
+- Implement the `SubscribingHandlerInterface` interface.
+- Declare the methods that handle serialization and/or deserialization within this class.
+- Define the type, format, and direction (serialization or deserialization) for which the handler applies in the `getSubscribingMethods()` method.
+
+**Example:**
+
+```php
+use JMS\Serializer\Handler\SubscribingHandlerInterface;
+use JMS\Serializer\GraphNavigator;
+use JMS\Serializer\JsonSerializationVisitor;
+use JMS\Serializer\JsonDeserializationVisitor;
+use JMS\Serializer\Context;
+
+class MyCustomHandler implements SubscribingHandlerInterface
+{
+    public static function getSubscribingMethods()
+    {
+        return [
+            [
+                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+                'format' => 'json',
+                'type' => 'MyCustomType', // Replace with the actual type you want to handle
+                'method' => 'serializeMyCustomTypeToJson',
+            ],
+            // Add deserialization method if needed
         ];
-        var_dump($hiii);
+    }
+
+    public function serializeMyCustomTypeToJson(JsonSerializationVisitor $visitor, MyCustomType $type, array $type, Context $context)
+    {
+        // Implement your custom serialization logic here
+        return $serializedData; // Return the serialized data
     }
 }
+```
 
-$hii = new Register();
-$hii->doStuff();
-above program cause below error
-PHP Fatal error:  Uncaught TypeError: Illegal offset type in C:\xampp\htdocs\example\registerModel.php:13
-Stack trace:
-#0 C:\xampp\htdocs\example\registerModel.php(22): Register->doStuff()
-#1 {main}
-  thrown in C:\xampp\htdocs\example\registerModel.php on line 13
+**2. Register the Handler:**
 
-Fatal error: Uncaught TypeError: Illegal offset type in C:\xampp\htdocs\example\registerModel.php:13
-Stack trace:
-#0 C:\xampp\htdocs\example\registerModel.php(22): Register->doStuff()
-#1 {main}
-  thrown in C:\xampp\htdocs\example\registerModel.php on line 13
+- **Standalone usage:**
+    ```php
+    $serializer = SerializerBuilder::create()->build();
+    $serializer->configureHandlers(function (HandlerRegistry $registry) {
+        $registry->registerSubscribingHandler(new MyCustomHandler());
+    });
+    ```
+
+- **Symfony framework:**
+    - Register the handler as a service.
+    - Add it to the serializer configuration:
+        ```yaml
+        # app/config/config.yml
+        jms_serializer:
+            handlers:
+                my_custom_handler:
+                    type: service
+                    id: my_custom_handler.service_id
+        ```
+
+**Key Points:**
+
+- Replace `MyCustomType` with the actual type you want to handle.
+- Implement the serialization/deserialization logic within the handler methods.
+- Ensure correct registration based on your project setup.
+
+**Additional Considerations:**
+
+- **Virtual Properties:** For handling properties not directly mapped to object fields, consider using virtual properties.
+- **Annotations:** Use annotations to control serialization behavior at the class or property level.
+- **Complex Data Handling:** JMS Serializer provides built-in handlers for dates, intervals, and other complex types.
+- **Doctrine Integration:** For Doctrine ORM, leverage specific integration features.
+
+I'm here to provide further guidance if you have any questions or need more specific assistance.
