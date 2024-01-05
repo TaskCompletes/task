@@ -1,76 +1,8 @@
- **Here's how you can set up a custom handler in JMS Serializer:**
-
-**1. Create a Custom Handler Class:**
-
-- Implement the `SubscribingHandlerInterface` interface.
-- Declare the methods that handle serialization and/or deserialization within this class.
-- Define the type, format, and direction (serialization or deserialization) for which the handler applies in the `getSubscribingMethods()` method.
-
-**Example:**
-
-```php
-use JMS\Serializer\Handler\SubscribingHandlerInterface;
-use JMS\Serializer\GraphNavigator;
-use JMS\Serializer\JsonSerializationVisitor;
-use JMS\Serializer\JsonDeserializationVisitor;
-use JMS\Serializer\Context;
-
-class MyCustomHandler implements SubscribingHandlerInterface
-{
-    public static function getSubscribingMethods()
-    {
-        return [
-            [
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'format' => 'json',
-                'type' => 'MyCustomType', // Replace with the actual type you want to handle
-                'method' => 'serializeMyCustomTypeToJson',
-            ],
-            // Add deserialization method if needed
-        ];
-    }
-
-    public function serializeMyCustomTypeToJson(JsonSerializationVisitor $visitor, MyCustomType $type, array $type, Context $context)
-    {
-        // Implement your custom serialization logic here
-        return $serializedData; // Return the serialized data
-    }
+object(DateTime)#399 (3) {
+  ["date"]=>
+  string(26) "2023-10-24 15:13:27.327407"
+  ["timezone_type"]=>
+  int(3)
+  ["timezone"]=>
+  string(16) "Australia/Sydney"
 }
-```
-
-**2. Register the Handler:**
-
-- **Standalone usage:**
-    ```php
-    $serializer = SerializerBuilder::create()->build();
-    $serializer->configureHandlers(function (HandlerRegistry $registry) {
-        $registry->registerSubscribingHandler(new MyCustomHandler());
-    });
-    ```
-
-- **Symfony framework:**
-    - Register the handler as a service.
-    - Add it to the serializer configuration:
-        ```yaml
-        # app/config/config.yml
-        jms_serializer:
-            handlers:
-                my_custom_handler:
-                    type: service
-                    id: my_custom_handler.service_id
-        ```
-
-**Key Points:**
-
-- Replace `MyCustomType` with the actual type you want to handle.
-- Implement the serialization/deserialization logic within the handler methods.
-- Ensure correct registration based on your project setup.
-
-**Additional Considerations:**
-
-- **Virtual Properties:** For handling properties not directly mapped to object fields, consider using virtual properties.
-- **Annotations:** Use annotations to control serialization behavior at the class or property level.
-- **Complex Data Handling:** JMS Serializer provides built-in handlers for dates, intervals, and other complex types.
-- **Doctrine Integration:** For Doctrine ORM, leverage specific integration features.
-
-I'm here to provide further guidance if you have any questions or need more specific assistance.
