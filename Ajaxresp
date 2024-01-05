@@ -1,60 +1,7 @@
-<?php
-
-namespace Drupal\Serializer;
-use JMS\Serializer\Handler\SubscribingHandlerInterface;
-use JMS\Serializer\GraphNavigator;
-use JMS\Serializer\Context;
-
-class DateTimeHandler implements SubscribingHandlerInterface
-{
-    public static function getSubscribingMethods()
-    {
-        return [
-            [
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'format' => 'xml',
-                'type' => 'DateTime',
-                'method' => 'serializeDateTimeToJson',
-            ],
-        ];
+if ($queryParam === '') {
+      return $this->formBuilder()->getForm(
+        'Drupal\submission\Form\UploadDocumentsForm',
+        $date,
+        $id
+      );
     }
-
-    public function serializeDateTimeToJson(\JMS\Serializer\XmlSerializationVisitor $visitor, \DateTime $date, array $type, Context $context)
-    {
-        var_dump('something in serialize');
-        var_dump($type['params'][0]);
-        var_dump($date->format($type['params'][0]));   
-        return $date->format($type['params'][0]);
-    }
-
-   
-} this is the datetime handler i written handle date
-
-when i run below Php unit code 
-
-
-public function bundleTest():void {
-   
-    $pro = 
-    <<<EOD
-    <?xml version="1.0" encoding="UTF-8"?>
-    <Ble Date="2023-10-24T15:13:27.327407">
-    </Ble>
-    EOD;
-
-    $resp = $this->serializer->deserialize($pro, Ble::class, 'xml');
-    $xmlresp = $this->serializer->serialize($resp,'xml');
-    var_dump($xmlresp);
-    //var_dump($resp);
-    $this->assertTrue(TRUE);
-    
-
-  }
-
-
-i am getting this error 
-
-
-Test Failure: JMS\Serializer\Exception\RuntimeException : Unsupported value for XML attribute for date. Expected character data, but got {"date":"2023-10-24 15:13:27.327407","timezone_type":3,"timezone":"Australia\/Sydney"}.
-
-please solve it
