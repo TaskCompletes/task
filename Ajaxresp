@@ -1,7 +1,33 @@
-if ($queryParam === '') {
-      return $this->formBuilder()->getForm(
-        'Drupal\submission\Form\UploadDocumentsForm',
-        $date,
-        $id
-      );
-    }
+ public function getTrueCopy(): self {
+    $this->form['truecopy'] = [
+      '#type' => 'checkbox',
+      '#title' => 'By checking this box you are certifying this associated document as a true copy.',
+    ];
+    return $this;
+  }
+public function getStamp(): self {
+    $this->form['stamp'] = [
+      '#type' => 'markup',
+      '#markup' => "<div class='stamp'>empty stamp</div>",
+        '#states' => [
+          'visible' => [
+            ':input[name="truecopy"]' => ['value' => 'unchecked'],
+          ],
+        ],
+    ];
+    return $this;
+  }
+public function getFilledStamp(string $color = 'red'): self {
+    $this->form['filled_stamp'] = [
+      '#type' => 'markup',
+      '#markup' => "<div class= $color>filled stamp $color</div>",
+        '#states' => [
+          'visible' => [
+            ':input[name="truecopy"]' => ['value' => 'checked'],
+          ],
+        ],
+    ];
+    return $this;
+  }
+
+even if checkbox selected or not both display but my objective is display stamp when it is unchecked and display filled stamp when it is checked
