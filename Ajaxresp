@@ -1,23 +1,20 @@
-public function getTrueCopy(): self {
-  $this->form['truecopy'] = [
-    '#type' => 'checkbox',
-    '#title' => 'By checking this box you are certifying this associated document as a true copy.',
-  ];
-  return $this;
-}
+<!-- ... (Your existing HTML code) -->
 
-public function getStamp(string $color = 'red'): self {
-  $this->form['stamp'] = [
-    '#type' => 'markup',
-    '#markup' => "<div class='$color stamp'>" . ($color === 'red' ? 'empty' : 'filled') . " stamp</div>",
-    '#states' => [
-      'visible' => [
-        ':input[name="truecopy"]' => ['checked' => FALSE], // Show when unchecked
-      ],
-      'invisible' => [
-        ':input[name="truecopy"]' => ['checked' => TRUE], // Hide when checked
-      ],
-    ],
-  ];
-  return $this;
-}
+<script>
+    async function setDetectionTime() {
+        const startTime = document.getElementById('startTime').value;
+        const endTime = document.getElementById('endTime').value;
+
+        // Send the start and end time to the server using fetch
+        const response = await fetch('/set_detection_time', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ startTime, endTime }),
+        });
+
+        // Log the server response (you can handle it accordingly in your application)
+        console.log(await response.text());
+    }
+</script>
