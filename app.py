@@ -14,8 +14,7 @@ def index():
 @app.route('/set_detection_time', methods=['POST'])
 def set_detection_time():
     global current_start_time, current_end_time
-    message = prerequest()
-    return "Time set successfully"
+    return render_template('detectionpage.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
