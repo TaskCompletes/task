@@ -2,18 +2,18 @@ import cv2
 import smtplib
 from random import randint
 
-def sendEmail():
-  s = smtplib.SMTP('smtp.gmail.com', 587)
-  # start TLS for security
-  s.starttls()
-  # Authentication
-  s.login("lovelykalai914@gmail.com", "lwxl oexq liqw vdys")
-  # message to be sent
-  message = "Message_you_need_to_send"
-  # sending the mail
-  s.sendmail("lovelykalai914@gmail.com", "narkunan9585@gmail.com", message)
-  # terminating the session
-  s.quit()
+#def sendEmail():
+    #s = smtplib.SMTP('smtp.gmail.com', 587)
+    ## start TLS for security
+    #s.starttls()
+    ## Authentication
+    #s.login("lovelykalai914@gmail.com", "lwxl oexq liqw vdys")
+    ## message to be sent
+    #message = "Message_you_need_to_send"
+    ## sending the mail
+    #s.sendmail("lovelykalai914@gmail.com", "narkunan9585@gmail.com", message)
+    ## terminating the session
+    #s.quit()
 
 def prerequest():
     dnn = cv2.dnn.readNet('yolov4-tiny.weights', 'yolov4-tiny.cfg')
@@ -48,9 +48,10 @@ def prerequest():
                 color = color_map[obj_class]
                 
             if obj_class.title() == 'Person' and j == 1:
-                sendEmail()
+                print('somrthing is working')
+                procteringActive = True
                 j = j + 1
-            
-        cv2.putText(frame, f'{obj_class.title()} {format(confidence, ".2f")}', (x, y-10), cv2.FONT_HERSHEY_DUPLEX, 1, color, 2)
-        cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+            if procteringActive: 
+               cv2.putText(frame, f'{obj_class.title()} {format(confidence, ".2f")}', (x, y-10), cv2.FONT_HERSHEY_DUPLEX, 1, color, 2)
+               cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
       
