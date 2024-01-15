@@ -1,130 +1,66 @@
-.request-advance-number-form {
-    background-color: $form-color;
-    width: 60%;
-		padding:12px;
+import cv2
+import smtplib
+from random import randint
 
-    .description {
-			font-size:0.75em;
-			font-weight: normal;
-      margin-bottom: 10px;
-		}
+def sendEmail():
+  s = smtplib.SMTP('smtp.gmail.com', 587)
+  # start TLS for security
+  s.starttls()
+  # Authentication
+  s.login("lovelykalai914@gmail.com", "lwxl oexq liqw vdys")
+  # message to be sent
+  message = "Message_you_need_to_send"
+  # sending the mail
+  s.sendmail("lovelykalai914@gmail.com", "narkunan9585@gmail.com", message)
+  # terminating the session
+  s.quit()
 
-    .dateformat {
-      margin-left: 27%;
-    }
+dnn = cv2.dnn.readNet('yolov4-tiny.weights', 'yolov4-tiny.cfg')
+model = cv2.dnn_DetectionModel(dnn)
+model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 
-    .requestinfo {
-      font-size: 1.1em;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
+with open('classes.txt') as f:
+    classes = f.read().strip().splitlines()
 
-    .squenceanddate {
-        height: 50px;
-        display: flex;
-        justify-content: space-between;
-        width: 95%;
-        font-size: 15px;
-        margin: 0px;
-        margin-top: 25px;
-    }
+capture = cv2.VideoCapture(0)
+capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+color_map = {}
+j = 1
+while True:
+    # frame capture
+    _, frame = capture.read() 
+    frame = cv2.flip(frame,1)
 
-    .expecteddate {
-        width: 120px;
-    }
+    # object detection
+    class_ids, confidences, boxes = model.detect(frame)
+    for id, confidence, box in zip(class_ids, confidences, boxes):
+        x, y, w, h = box
+        obj_class = classes[id]
 
-    .select-country input[type="radio"] {
-      display: inline-block;
-      margin-right: 10px;
-      accent-color: #84777700;
-    }
+        if obj_class not in color_map:
+            color = (randint(0, 255), randint(0, 255), randint(0, 255))
+            color_map[obj_class] = color
+        else:
+            color = color_map[obj_class]
+        if obj_class.title() == 'Person' and j == 1:
+            sendEmail()
+            j=j+1
+        cv2.putText(frame, f'{obj_class.title()} {format(confidence, ".2f")}', (x, y-10), cv2.FONT_HERSHEY_DUPLEX, 1, color, 2)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+      
+      
+    cv2.imshow('Video Capture', frame)
+    key = cv2.waitKey(1) # freezes frame for 1ms
 
-		.checkboxcommencement input[type="checkbox"] {
-			display: inline-block;
-			margin-right: 10px;
-		}
+    match(key):
+        case 27: # esc key to exit
+            capture.release()
+            cv2.destroyAllWindows()
+
+        case 13: # enter key to reset colors
+            color_map = {}
     
-    .select-country .country-radio {
-        display: inline-block;
-    }
-		fieldset.select-country {
-			margin-bottom: 0px;
-	  }
-    .requestnumber {
-      margin-left: 106%;
-    }
-    .requestnumber::after {
-      @include rightarrow;
-    }
-    .notification {
-    left: 63%;
-    font-size: 12px;
-    margin-top: -30px;
-    width: 317px;
-    padding: 0px;
-    background-color: white;
-    position: absolute;
-    }
-    .info-plain {
-      font-size: 13px;
-      font-weight: bold;
-    }
-    .info-plain::after {
-      content: '\a';
-      white-space: pre;
-    }
-    .reasondescription {
-      font-size: 13px;
-      font-style: italic;
-    }
-    .infoplain {
-      font-weight: bold;
-    }
-    .reasonarea {
-      width: 502px;
-      height: 77px;
-      border-color: $black;
-      border-radius: 1px;
-    }
-    
-}
-div.select-country {
-    display: flex;
-    justify-content: space-between;
-    width: 145%;
-}
+        
 
-.select-country .panel-block > div {
-  display: flex;
-  justify-content: space-between;
-  width: 150%;
-  .label{
-	 font-size: 12px;
-	font-weight: normal;
-}
-}
-.checkboxcommencement .panel-block > div {
-	display: flex;
-	justify-content: space-between;
-	width: 130%;
-	.label{
-		font-size: 12px;
-		font-weight: normal;
-		display: flex;
-		justify-content: space-between;
-	}
-
-}
-.checkboxcommencementscot .panel-block > div {
-	display: flex;
-	justify-content: space-between;
-	width: 65%;
-	.label{
-		font-size: 12px;
-		font-weight: normal;
-		display: flex;
-		justify-content: space-between;
-	}
-
-}
-please remove duplicate code without affecting functionality
+        
