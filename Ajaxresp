@@ -1,20 +1,66 @@
-<!-- ... (Your existing HTML code) -->
+from flask import Flask, request, jsonify
 
-<script>
-    async function setDetectionTime() {
-        const startTime = document.getElementById('startTime').value;
-        const endTime = document.getElementById('endTime').value;
+app = Flask(__name__)
 
-        // Send the start and end time to the server using fetch
-        const response = await fetch('/set_detection_time', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ startTime, endTime }),
-        });
+current_start_time = None
+current_end_time = None
 
-        // Log the server response (you can handle it accordingly in your application)
-        console.log(await response.text());
-    }
-</script>
+@app.route('/')
+def index():
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Object Detection Control</title>
+    </head>
+    <body>
+        <h1>Object Detection Control</h1>
+        <form id="timeForm">
+            <label for="startTime">Start Time:</label>
+            <input type="time" id="startTime" required>
+            <label for="endTime">End Time:</label>
+            <input type="time" id="endTime" required>
+            <button type="button" onclick="setDetectionTime()">Set Detection Time</button>
+        </form>
+        <script>
+            async function setDetectionTime() {
+                const startTime = document.getElementById('startTime').value;
+                const endTime = document.getElementById('endTime').value;
+
+                const response = await fetch('/set_detection_time', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ startTime, endTime }),
+                });
+
+                console.log(await response.text());
+            }
+        </script>
+    </body>
+    </html>
+    """
+
+@app.route('/set_detection_time', methods=['POST'])
+def set_detection_time():
+    global current_start_time, current_end_time
+
+    data = request.get_json()
+    current_start_time = datetime.datetime.strptime(data['startTime'], "%H:%M:%S").time()
+    current_end_time = datetime.datetime.strptime(data['endTime'], "%H:%M:%S").time()
+
+    return "Time set successfully"
+
+# Add new route to provide the current detection times to the detection script
+@app.route('/get_detection_time', methods=['GET'])
+def get_detection_time():
+    return jsonify({
+        'start_time': current_start_time.strftime("%H:%M:%S"),
+        'end_time': current_end_time.strftime("%H:%M:%S")
+    })
+
+if __name__ == '__main__':
+    app.run(debug=True)
