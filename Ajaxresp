@@ -1,66 +1,33 @@
-from flask import Flask, request, jsonify
+import datetime
+import cv2
+import smtplib
+import requests
+from random import randint
 
-app = Flask(__name__)
+# ... (Your existing code)
 
-current_start_time = None
-current_end_time = None
+def is_valid_time(start_time, end_time):
+    current_time = datetime.datetime.now().time()
+    return start_time <= current_time <= end_time
 
-@app.route('/')
-def index():
-    return """
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Object Detection Control</title>
-    </head>
-    <body>
-        <h1>Object Detection Control</h1>
-        <form id="timeForm">
-            <label for="startTime">Start Time:</label>
-            <input type="time" id="startTime" required>
-            <label for="endTime">End Time:</label>
-            <input type="time" id="endTime" required>
-            <button type="button" onclick="setDetectionTime()">Set Detection Time</button>
-        </form>
-        <script>
-            async function setDetectionTime() {
-                const startTime = document.getElementById('startTime').value;
-                const endTime = document.getElementById('endTime').value;
+while True:
+    # Retrieve the user-set start and end times from the Flask server
+    response = requests.get('http://127.0.0.1:5000/get_detection_time')
+    data = response.json()
+    user_start_time = datetime.datetime.strptime(data['start_time'], "%H:%M:%S").time()
+    user_end_time = datetime.datetime.strptime(data['end_time'], "%H:%M:%S").time()
 
-                const response = await fetch('/set_detection_time', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ startTime, endTime }),
-                });
+    if is_valid_time(user_start_time, user_end_time):
+        _, frame = capture.read()
+        frame = cv2.flip(frame, 1)
 
-                console.log(await response.text());
-            }
-        </script>
-    </body>
-    </html>
-    """
+        class_ids, confidences, boxes = model.detect(frame)
+        for id, confidence, box in zip(class_ids, confidences, boxes):
+            x, y, w, h = box
+            obj_class = classes[id]
 
-@app.route('/set_detection_time', methods=['POST'])
-def set_detection_time():
-    global current_start_time, current_end_time
-
-    data = request.get_json()
-    current_start_time = datetime.datetime.strptime(data['startTime'], "%H:%M:%S").time()
-    current_end_time = datetime.datetime.strptime(data['endTime'], "%H:%M:%S").time()
-
-    return "Time set successfully"
-
-# Add new route to provide the current detection times to the detection script
-@app.route('/get_detection_time', methods=['GET'])
-def get_detection_time():
-    return jsonify({
-        'start_time': current_start_time.strftime("%H:%M:%S"),
-        'end_time': current_end_time.strftime("%H:%M:%S")
-    })
-
-if __name__ == '__main__':
-    app.run(debug=True)
+            if obj_class.title() == 'Person' and j == 1:
+                sendEmail()
+                j = j + 1
+    else:
+        print("Object detection is currently disabled. Valid time range:", user_start_time, "-", user_end_time)
