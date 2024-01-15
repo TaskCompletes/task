@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Object Detection Control</title>
-</head>
-<body>
-    <h1>Object Detection Control</h1>
-    <form action="/set_detection_time" method="post">
-        <label for="startTime">Start Time:</label>
-        <input type="time" id="startTime" required>
-        <label for="endTime">End Time:</label>
-        <input type="time" id="endTime" required>
-        <button type="submit">Set Detection Time</button>
-    </form>
-</body>
+<html>
+    <head>
+        <title>detect</title>
+    </head>
+    <body>
+        <h1>you are proctering</h1>
+        <div>
+            <img src="{{ url_for('video_feed') }}">
+        </div>
+    </body>
 </html>
-    
-        
-
-        
