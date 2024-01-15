@@ -1,65 +1,26 @@
-import cv2
-import smtplib
-from random import randint
+from flask import Flask, render_template, request
 
-def sendEmail():
-  s = smtplib.SMTP('smtp.gmail.com', 587)
-  # start TLS for security
-  s.starttls()
-  # Authentication
-  s.login("lovelykalai914@gmail.com", "lwxl oexq liqw vdys")
-  # message to be sent
-  message = "Message_you_need_to_send"
-  # sending the mail
-  s.sendmail("lovelykalai914@gmail.com", "narkunan9585@gmail.com", message)
-  # terminating the session
-  s.quit()
+app = Flask(__name__)
 
-dnn = cv2.dnn.readNet('yolov4-tiny.weights', 'yolov4-tiny.cfg')
-model = cv2.dnn_DetectionModel(dnn)
-model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
+current_start_time = None
+current_end_time = None
 
-with open('classes.txt') as f:
-    classes = f.read().strip().splitlines()
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-capture = cv2.VideoCapture(0)
-capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-color_map = {}
-j = 1
-while True:
-    # frame capture
-    _, frame = capture.read() 
-    frame = cv2.flip(frame,1)
+@app.route('/set_detection_time', methods=['POST'])
+def set_detection_time():
+    global current_start_time, current_end_time
 
-    # object detection
-    class_ids, confidences, boxes = model.detect(frame)
-    for id, confidence, box in zip(class_ids, confidences, boxes):
-        x, y, w, h = box
-        obj_class = classes[id]
+    data = request.get_json()
+    current_start_time = data['startTime']
+    current_end_time = data['endTime']
 
-        if obj_class not in color_map:
-            color = (randint(0, 255), randint(0, 255), randint(0, 255))
-            color_map[obj_class] = color
-        else:
-            color = color_map[obj_class]
-        if obj_class.title() == 'Person' and j == 1:
-            sendEmail()
-            j=j+1
-        cv2.putText(frame, f'{obj_class.title()} {format(confidence, ".2f")}', (x, y-10), cv2.FONT_HERSHEY_DUPLEX, 1, color, 2)
-        cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
-      
-      
-    cv2.imshow('Video Capture', frame)
-    key = cv2.waitKey(1) # freezes frame for 1ms
+    return "Time set successfully"
 
-    match(key):
-        case 27: # esc key to exit
-            capture.release()
-            cv2.destroyAllWindows()
-
-        case 13: # enter key to reset colors
-            color_map = {}
+if __name__ == '__main__':
+    app.run(debug=True)
     
         
 
