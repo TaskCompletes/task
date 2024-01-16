@@ -1,55 +1,28 @@
-<?php
+{#
+  Template for rendering a set of cards within a <ul>.
+  Variables available:
+  - bundle_data: An array of objects representing the bundle data.
+#}
+{% set bundle_object = bundle_data.bundle_object %}
+{% set reference_documents = bundle_data.reference_documents %}
+{% set descriptive_text = bundle_data.descriptive_text %}
 
-namespace Drupal\tna_legislation_publishing_user\Event;
+{% set sanitized_region = bundle_object.georgraphicalApplicability|replace({' ': '-'})|lower %}
+{% set sanitized_id = bundle_object.displayName|replace({' ': '-'})|lower %}
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Url;
-use Drupal\tna_legislation_publishing_client\Exception\ClientException;
-use Drupal\tna_legislation_publishing_user\Event\UserLoginEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\tna_legislation_publishing_user\Service\ForcedPasswordService;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-
-class ForcePasswordEvent implements EventSubscriberInterface {
-
-  public function __construct(
-    protected EntityTypeManagerInterface $entityTypeManager,
-    protected ForcedPasswordService $forcedPasswordService,
-  ) {}
-  
-  public static function getSubscribedEvents(): array {
-    return [
-      UserLoginEvent::FORCEPASSWORD => 'checkResetRequired',
-    ];
-  }
-
-  public function checkResetRequired(UserLoginEvent $event): void {
-    
-    try{
-      $resp = $this->forcedPasswordService->checkPasswordChangeRequired();
-      $updateDTO = $this->forcedPasswordService->parseXML($resp);
-      if($updateDTO->getPasswordReset()==="false") {
-        //$username = \Drupal::currentUser()->getAccountName();
-        //\Drupal::messenger()->addMessage($username);    
-      }
-      else {
-        $url = Url::fromUri("internal:/user/force");
-        $path = $url->toString();
-        $response = new RedirectResponse($path);
-        $response->send();
-        //$username = \Drupal::currentUser()->getAccountName();
-        //\Drupal::messenger()->addMessage($username);     
-      }
-
-    }
-    catch(ClientException $e){
-        $e->getApiExceptionBody()->getMessage();
-    }
-    
-  }
-
-}
- RuntimeException: Failed to start the session because headers have already been sent by
-                                                                       "/var/www/vendor/symfony/http-foundation/Response.php" at line 410. in
-                                                                       Symfony\Component\HttpFoundat
-this the error i got when i run
+{# Associated documents bundles #}
+<div class="bundle {{ sanitized_region }}-bundle">
+  <button class="bundle-card" role="submit" id="{{ sanitized_id }}">
+    <h2 class="my-2">{{ bundle_object.displayName }}</h2>
+    {% if descriptive_text %}             
+      <p class="mb-1">{{ descriptive_text }}</p>
+    {% endif %}
+    <ul>
+      {% if bundle_object.displayName != 'Associated Document Bundle' %}             
+        {% for doc_required in reference_documents %}                 
+          <li class="ml-3 mt-1">{{ doc_required }}</li>                 
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </button>
+</div>
