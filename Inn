@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Date Picker Example</title>
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-    $(function() {
-      $("#datepicker").datepicker({
-        dateFormat: 'dd/mm/yy',
-        showOn: "both",
-        buttonText: "Select date",
-        onSelect: function(dateText) {
-          $("#datepicker").val(dateText);
-        }
-      });
-    });
-  </script>
-</head>
-<body>
+<div class="file-upload">
+    <input class="hidden-file-upload js-form-file form-file visually-hidden" data-drupal-selector="edit-document" data-is-api-file-upload="" type="file" id="edit-document" name="document" size="60" data-js-added="true">
 
-  <label for="datepicker">Select a date:</label>
-  <input type="text" id="datepicker">
-  <button id="showCalendarButton">Select date</button>
+    <div class="file-upload-wrapper">
+    <input class="input input-overlay hidden-file-upload js-form-file form-file" readonly="">
+    <label class="button" for="edit-document">Browse</label>
+  </div>
+</div
 
-</body>
-</html>
+
+i am want to hide file-upload-wrapper when input filed contains hidden class
