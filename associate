@@ -1,19 +1,16 @@
-foreach ($this->bundleDefinitionsByJurisdiction[$regionId] as $bundle) {
-      $bundleType = $bundle->getType();
-      if ( $bundleType != 'ukooc' && $bundleType != 'sooc' && $pco == false) {
-        $form[$regionId][] = $this->addCardSelection($bundle);
-      }
-      elseif ($pco) {
-        $form[$regionId][] = $this->addCardSelection($bundle);
-      }
-      if ($bundle->getAllowCrossCover() && $this->userHasCrossCoverPermission) {
-        $newBundle = $bundle;
-        $newBundle->setType($newBundle->getType() . '-cc');
-        $newBundle->setDisplayName($newBundle->getDisplayName() . ' with cross cover');
-        $form[$regionId][] = $this->addCardSelection($newBundle);
-      }
+foreach ($definitions->getBundles() as $bundle) {
+    $uniqueExtensions = [];
+    foreach ($bundle->getDocument() as $document) {
+        if (!is_null($document->getExtensions())) {
+            $extensions = explode(' ', $document->getExtensions());
+            // Add only unique extensions to the uniqueExtensions array
+            foreach ($extensions as $extension) {
+                if (!in_array($extension, $uniqueExtensions)) {
+                    $uniqueExtensions[] = $extension;
+                }
+            }
+        }
     }
+    $extension[$bundle->getType()] = $uniqueExtensions;
+}
 
-
-
-now the requirements is if the user has crosscover permission we need to display bundle one is normal and one is with cross cover but what happens is both display with cross cover 
