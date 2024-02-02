@@ -1,15 +1,57 @@
-for ($i = 1; $i <= $selection_value; $i++) {
-      $selected_country = $form_state->getValue('country',$preferredLocation);
-      $form['fields_wrapper']['text_field_' . $i] = RequestAdvanceNumberFieldgenerator::getTextfield($i);
-      if($selected_country === 'UnitedKingdom') {
-        $form['fields_wrapper']['checkboxuk_'.$i] = RequestAdvanceNumberFieldgenerator::getCheckBoxUK($i);
-      }
-      elseif($selected_country === 'Scotland') {
-        $form['fields_wrapper']['checkboxscot_'.$i] = RequestAdvanceNumberFieldgenerator::getCheckBoxScot($i);
-      }
-      elseif($selected_country === 'NorthernIreland') {
-        $form['fields_wrapper']['checkboxire_'.$i] = RequestAdvanceNumberFieldgenerator::getCheckBoxIre($i);
-      }
-}
-what are wrong with this code according to drupal coding standard
+public function addAjaxconatainer() : self {
+    $this->form['notifications']['info_box'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'id' => 'file-candy',
+      ],
+    ];
+    return $this;
+   }
+   public function addRadioButton(): Self{
+ 
+    $this->form['country'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Important information'),
+      '#options' => [
+        'no' => 'No',
+        'yes' => 'Yes',
+      ],
+      '#default_value' => 'no',
+    ];
+    return $this;
+   }
+   public function addTextFieldOne(): self{
+    $this->form['notifications']['info_box']['textField_one'] = [
+      '#type' => 'textfield',
+      '#size' => 1,
+      '#maxlength' => 1,
+      '#states' => [
+        'visible' => [
+          ":input[name = 'country']" => ['value' => 'yes']
+        ]
+      ],
+      '#ajax' => [
+        'callback' => '::updateAuthMessage',
+        'progress' => array('type' => 'none'),
+        'wrapper' => 'file-candy',
+        'event' => 'change',
+      ],
+    ];
+    return $this;
+   }
+   public function addAuthMessage(): self {
+    $this->form['notifications']['info_box']['auth_message'] = [
+      '#markup' => 'hiii this important'
+    ];
+    return $this;
+   }
+public function updateAuthMessage(array &$form, FormStateInterface $form_state) : array {
+    $total = '';
+    $one = $form_state->getValue('textField_one');
+    $scretcode = $this->bundleService->getUrgentCode();
+    $form['info_box']['auth_message']['#markup']  = 'authentication success';
+    return $form['info_box'];
+  }
+what i am trying to do is check when user type i am trying to change the markup of auth_message but what happens is
+it change the markup but all other fields are hiding inside info-box
 
