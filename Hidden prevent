@@ -1,32 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Object Detection Control</title>
-</head>
-<body>
-    <h1>Object Detection Control</h1>
-    <form id="timeForm">
-        <label for="startTime">Start Time:</label>
-        <input type="time" id="startTime" required>
-        <label for="endTime">End Time:</label>
-        <input type="time" id="endTime" required>
-        <button type="button" onclick="setDetectionTime()">Set Detection Time</button>
-    </form>
-    <script>
-        function setDetectionTime() {
-            const startTime = document.getElementById('startTime').value;
-            const endTime = document.getElementById('endTime').value;
+$allowCrossCover = $response->getMetadata()->getCrossCover();
+      $reprints = $response->getMetadata()->getMustUpdateExistingLegislation();
+i am calling above two functions it is giving value like this
+object(Drupal\tna_legislation_publishing_model\Model\Bundle\CrossCover)#675 (1) { 
+["value":"Drupal\tna_legislation_publishing_model\Model\Bundle\CrossCover\CrossCoverAType":private]=> bool(false) 
+} object(Drupal\tna_legislation_publishing_model\Model\Bundle\MustUpdateExistingLegislation)#705 (1) { 
+["value":"Drupal\tna_legislation_publishing_model\Model\Bundle\MustUpdateExistingLegislation\MustUpdateExistingLegislationAType":private]=> bool(true) 
+}
 
-            // Send the start and end time to the server (you'll need a backend for this)
-            // For simplicity, you can use JavaScript fetch() or AJAX to send this data.
-            // Example: fetch('/set_detection_time', { method: 'POST', body: JSON.stringify({ startTime, endTime }), headers: { 'Content-Type': 'application/json' } })
-        }
-    </script>
-</body>
-</html>
-    
-        
-
-        
+if ($allowCrossCover) {
+      $confirmationFormBuilder
+        ->addDocumentDetailsForCC($displayName, $title)
+    }
+    elseif ($reprints) {
+      $confirmationFormBuilder
+        ->addDocumentDetailsForCC($displayName, $title,)
+    }
+what is happening is it moves to $allowcrooscover even the value is false
