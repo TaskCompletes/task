@@ -1,23 +1,18 @@
-<div class="bundle unitedkingdom-bundle cross-cover">
-  <button class="bundle-card" role="submit">
-    <h2 class="my-2">UK Statutory Instrument Bundle with cross cover</h2>
-                 
-      <p class="mb-1">Use to submit General Instruments on behalf of another department.  You will need:</p>
-        <ul>
-                   
-                         
-          <li class="ml-3 mt-1">Invoice details for that department</li>                 
-                         
-          <li class="ml-3 mt-1">Publishing details for dates and copies</li>                 
-                  </ul>
-  </button>
-</div>
+ $documentrequired = []; 
+    foreach ($definitions->getBundles() as $bundle) {
+      if ($bundle->getType() === $type) {
+        foreach ($bundle->getDocument() as $docu) {
+          if ($docu->getType() === 'mandatory' || $docu->getType() === 'optional') {
+            foreach ($definitions->getDocuments() as $document) {
+              if ($document->getType() === $docu->getRef()) {
+                $documentrequired[$docu->getRef()] = [['ref'] => $docu->getRef(), ['type'] => $docu->getType(), ['displayname'] => $document->getDisplayName()];
+              }
+            }
+          }
+        }
+      }
+    }
+    var_dump($documentrequired);
+    return $documentrequired;
 
-above is html code
-below is the css
-.cross-cover {
-    background: url(../images/bundle_selection_crosscover.png)
-    no-repeat;;
-
-  }
-now the issue is image is not displayed on the background
+this is causing below error TypeError: Illegal offset type in Drupal\tna_legislation_publishing_submission\Service\AvailableBundles->getAvailableFile() (line 249 of /var/www/web/modules/custom/tna_legislation_publishing_submission/src/Service/AvailableBundles.php).
