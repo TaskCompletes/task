@@ -1,18 +1,48 @@
- $documentrequired = []; 
-    foreach ($definitions->getBundles() as $bundle) {
-      if ($bundle->getType() === $type) {
-        foreach ($bundle->getDocument() as $docu) {
-          if ($docu->getType() === 'mandatory' || $docu->getType() === 'optional') {
-            foreach ($definitions->getDocuments() as $document) {
-              if ($document->getType() === $docu->getRef()) {
-                $documentrequired[$docu->getRef()] = [['ref'] => $docu->getRef(), ['type'] => $docu->getType(), ['displayname'] => $document->getDisplayName()];
-              }
-            }
-          }
+below is the call back
+$wholeString = '';
+    $textfieldOne = $form_state->getValue('textField_one');
+    $textfieldTwo = $form_state->getValue('textField_two');
+    $textfieldFour = strtolower($textfieldFour);
+    $wholeString = $wholeString . $textfieldOne . $textfieldTwo r;
+    $urgentCodeFromUser = $textfieldOne . $textfieldTwo ; 
+    $this->messenger()->deleteAll();
+    if (strlen($wholeString) === 4) {
+        $this->urgentCode = $this->uploadFormService->getUrgentCode();
+        if ($urgentCodeFromUser == $this->urgentCode && $lettterValidation) {
+          $form['notifications']['info_box']['auth_message']['#markup']  = 'Authorisation code approved';
+          return $form['notifications']['info_box'];
         }
+        else {
+          $form['notifications']['info_box']['auth_message']['#markup']  = '<div class="code-error"><p><b>Invalid Authorisation code entered</b></p></div>';
+          return $form['notifications']['info_box'];
       }
+      } 
     }
-    var_dump($documentrequired);
-    return $documentrequired;
+    return $form['notifications']['info_box'];
+below is how i am adding textfield 
+public function addTextFieldOne(): self{
+    $this->form['notifications']['info_box']['text_field_container']['textField_one'] = [
+      '#type' => 'textfield',
+      '#ajax' => [
+        'callback' => '::updateAuthMessage',
+        'progress' => array('type' => 'none'),
+        'wrapper' => 'file-candy',
+        'event' => 'change',
+      ],
+    ];
+    return $this;
+   }
 
-this is causing below error TypeError: Illegal offset type in Drupal\tna_legislation_publishing_submission\Service\AvailableBundles->getAvailableFile() (line 249 of /var/www/web/modules/custom/tna_legislation_publishing_submission/src/Service/AvailableBundles.php).
+   public function addTextFieldTwo(): self{
+    $this->form['notifications']['info_box']['text_field_container']['textField_two'] = [
+      '#type' => 'textfield',
+      '#ajax' => [
+        'callback' => '::updateAuthMessage',
+        'progress' => array('type' => 'none'),
+        'wrapper' => 'file-candy',
+        'event' => 'change',
+      ],
+    ];
+    return $this;
+   }
+now the requirement is when i type something on text field after the execution of callack values are disappears can you reseolve it.
