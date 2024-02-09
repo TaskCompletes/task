@@ -1,57 +1,41 @@
-public function addAjaxconatainer() : self {
-    $this->form['notifications']['info_box'] = [
-      '#type' => 'container',
-      '#attributes' => [
-        'id' => 'file-candy',
-      ],
-    ];
-    return $this;
-   }
-   public function addRadioButton(): Self{
- 
-    $this->form['country'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Important information'),
-      '#options' => [
-        'no' => 'No',
-        'yes' => 'Yes',
-      ],
-      '#default_value' => 'no',
-    ];
-    return $this;
-   }
-   public function addTextFieldOne(): self{
-    $this->form['notifications']['info_box']['textField_one'] = [
-      '#type' => 'textfield',
-      '#size' => 1,
-      '#maxlength' => 1,
-      '#states' => [
-        'visible' => [
-          ":input[name = 'country']" => ['value' => 'yes']
-        ]
-      ],
-      '#ajax' => [
-        'callback' => '::updateAuthMessage',
-        'progress' => array('type' => 'none'),
-        'wrapper' => 'file-candy',
-        'event' => 'change',
-      ],
-    ];
-    return $this;
-   }
-   public function addAuthMessage(): self {
-    $this->form['notifications']['info_box']['auth_message'] = [
-      '#markup' => 'hiii this important'
-    ];
-    return $this;
-   }
-public function updateAuthMessage(array &$form, FormStateInterface $form_state) : array {
-    $total = '';
-    $one = $form_state->getValue('textField_one');
-    $scretcode = $this->bundleService->getUrgentCode();
-    $form['info_box']['auth_message']['#markup']  = 'authentication success';
-    return $form['info_box'];
-  }
-what i am trying to do is check when user type i am trying to change the markup of auth_message but what happens is
-it change the markup but all other fields are hiding inside info-box
+(function ($) {
+  Drupal.behaviors.myModuleAjaxCheck = {
+    attach: function(context, settings) {
+      $('.js-my-ajax-check', context).once('ajax').each(function () {
+        const $element = $(this);
+        const $wrapper = $('#code-check-result');
 
+        $element.on('change', function () {
+          const fieldOne = $('#edit-field-one').val();
+          // Get values of other fields
+          const combinedCode = fieldOne + $element.next().val() + ...;
+
+          $.ajax({
+            url: '/check-code',
+            method: 'POST',
+            data: { code: combinedCode },
+            beforeSend: function () {
+              // Show loading indicator (optional)
+              $wrapper.html('<div class="ajax-loading"></div>');
+            },
+            success: function (response) {
+              if (response.success) {
+                $wrapper.html('<p>Code is correct!</p>');
+              } else {
+                $wrapper.html('<p>Code is wrong!</p>');
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.error('AJAX error:', jqXHR, textStatus, errorThrown);
+              $wrapper.html('<p>An error occurred.</p>');
+            },
+            complete: function () {
+              // Remove loading indicator (optional)
+              $wrapper.find('.ajax-loading').remove();
+            }
+          });
+        });
+      });
+    }
+  };
+})(jQuery);
