@@ -1,41 +1,29 @@
-(function ($) {
-  Drupal.behaviors.myModuleAjaxCheck = {
-    attach: function(context, settings) {
-      $('.js-my-ajax-check', context).once('ajax').each(function () {
-        const $element = $(this);
-        const $wrapper = $('#code-check-result');
+class UploadPageForm extends FormBase {
+  /**
+   * Flag for urgent code.
+   * 
+   * @var bool $isValidUrgentCode
+   */
+  protected bool $isValidUrgentCode = false;
 
-        $element.on('change', function () {
-          const fieldOne = $('#edit-field-one').val();
-          // Get values of other fields
-          const combinedCode = fieldOne + $element.next().val() + ...;
-
-          $.ajax({
-            url: '/check-code',
-            method: 'POST',
-            data: { code: combinedCode },
-            beforeSend: function () {
-              // Show loading indicator (optional)
-              $wrapper.html('<div class="ajax-loading"></div>');
-            },
-            success: function (response) {
-              if (response.success) {
-                $wrapper.html('<p>Code is correct!</p>');
-              } else {
-                $wrapper.html('<p>Code is wrong!</p>');
-              }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              console.error('AJAX error:', jqXHR, textStatus, errorThrown);
-              $wrapper.html('<p>An error occurred.</p>');
-            },
-            complete: function () {
-              // Remove loading indicator (optional)
-              $wrapper.find('.ajax-loading').remove();
-            }
-          });
-        });
-      });
-    }
-  };
-})(jQuery);
+public function updateAuthMessage(array &$form, FormStateInterface $form_state) : array {
+    $wholeString = '';
+    $textfieldOne = $form_state->getValue('textField_one');
+    $textfieldTwo = $form_state->getValue('textField_two');
+    $urgentcodefromuser = $textfieldOne . $textfieldTwo;
+        $this->urgentCode = '95';
+        if ($urgentCodeFromUser === $this->urgentCode) {
+          $this->isValidUrgentCode = TRUE;
+          $form['notifications']['info_box']['auth_message']['#markup']  = '<div class="code-message code-success"><p>Authorisation code approved</p></div>';
+          return $form['notifications']['info_box'];
+        }
+        else {
+          $this->isValidUrgentCode = FALSE;
+          $form['notifications']['info_box']['auth_message']['#markup']  = '<div class="code-message code-error"><p>Invalid Authorisation code entered</p></div>';
+          return $form['notifications']['info_box'];
+      }  
+    return $form['notifications']['info_box'];
+  }
+}
+this is a ajax call back function in drupal what happens is if code is valid i am setting flag $this->isvalidurgentcode = true otherwise false
+but the issue is when the callback finish it execution the flag retain it's value to false that is set as instance variable
