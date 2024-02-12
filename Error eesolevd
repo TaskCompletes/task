@@ -1,29 +1,38 @@
 class UploadPageForm extends FormBase {
-  /**
-   * Flag for urgent code.
-   * 
-   * @var bool $isValidUrgentCode
-   */
-  protected bool $isValidUrgentCode = false;
-
-public function updateAuthMessage(array &$form, FormStateInterface $form_state) : array {
-    $wholeString = '';
-    $textfieldOne = $form_state->getValue('textField_one');
-    $textfieldTwo = $form_state->getValue('textField_two');
-    $urgentcodefromuser = $textfieldOne . $textfieldTwo;
-        $this->urgentCode = '95';
-        if ($urgentCodeFromUser === $this->urgentCode) {
-          $this->isValidUrgentCode = TRUE;
-          $form['notifications']['info_box']['auth_message']['#markup']  = '<div class="code-message code-success"><p>Authorisation code approved</p></div>';
-          return $form['notifications']['info_box'];
-        }
-        else {
-          $this->isValidUrgentCode = FALSE;
-          $form['notifications']['info_box']['auth_message']['#markup']  = '<div class="code-message code-error"><p>Invalid Authorisation code entered</p></div>';
-          return $form['notifications']['info_box'];
-      }  
-    return $form['notifications']['info_box'];
+public function buildform(): array {
+    $form['notifications']['info_box']['info_box_inner_container']['text_field_container']['all_filled_check'] = [
+      '#type' => 'button',
+      '#name' => 'callback',
+      '#value' => $this->t('submit callback'),
+      '#attributes' => [
+        'class' => [
+          'callback-button',
+        ],
+      ],
+      '#ajax' => [
+        'callback' => '::updateAuthMessage',
+        'wrapper' => 'Authentication-container',
+        'progress' => ['type' => 'none'],
+        'event' => 'click',
+      ],
+    ];
+    $form_state->set('isValidcode', FALSE); 
+    return $form;
   }
+public function updateAuthMessage(array &$form, FormStateInterface $form_state) : array {
+    $isValidUrgentCode = true; 
+    $form_state->set('isValidcode', $isValidUrgentCode);
+    return $form['notifications']['info_box'];
 }
-this is a ajax call back function in drupal what happens is if code is valid i am setting flag $this->isvalidurgentcode = true otherwise false
-but the issue is when the callback finish it execution the flag retain it's value to false that is set as instance variable
+public function submitForm(array &$form, FormStateInterface $form_state) {
+    //Store the name of button clicked.
+    $buttonClicked = $form_state->getTriggeringElement();
+    $urgentCodeSelected = $form_state->getValue('urgent_button');
+    $urgentCodeLetter = $form_state->getValue('textField_four');
+    $isValidCode = $form_state->get('isValidcode');
+    var_dump($isValidCode);
+    exit;
+}
+}
+this is a ajax call back function in drupal what happens is when user submit form after the call back the isvalidcode retain it's
+value in the build form that is 'isvalidcode' value of false it is not returning the value as true
