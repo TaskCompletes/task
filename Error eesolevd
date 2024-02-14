@@ -1,3 +1,37 @@
-Not shown if Expedited = true and Expedited/Quiet = false  
+public class upload {
 
-Not shown if Emergency = true  ()
+public function build form() {
+$form['file_container'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'id' => 'file-wrapper',
+      ],
+];
+$form['file_container']['add_another_document'] = [
+      '#type' => 'button',
+      '#name' => 'another',
+      '#value' => $this->t('Add another document'),
+      '#ajax' => [
+        'callback' => '::addFileUploadfield',
+        'wrapper' => 'file-wrapper',
+      ],
+  ];
+$index = 0 ;
+$form['file_container']['document' . $index] = [
+      '#type' => 'document_file_upload',
+      '#limit_validation_errors' => [],
+      '#allow_removal' => TRUE,
+      '#show_remove_button' => TRUE,
+        'accept' => $acceptingFileFormat
+];
+}
+public function updateFieldsAjaxCallback(array &$form, FormStateInterface $form_state) : array {
+      return $form['file_container'];
+}
+    
+  }
+}
+
+now the requirement is when user click the submit it comes to call back when user click the button it should generate new fields
+but what happens it is generate new fields as expected but the issue if upload file on one field and click the add another document button
+the uploaded file get removed
