@@ -1,103 +1,47 @@
 foreach ($fileTypeArray as $key => $type) {
-        foreach ($uploaded as $types => $increment) {
-          if ($type[0] === $types && $type[1] === 'variant' && !$form_state->isRebuilding()) {
-            $l = 0;
-            foreach ($increment as $availableTypes) {
-              if ($l === 0 && !array_key_exists($key, $document_types)) {
-                $document_types[$key] = [
-                  'type' => $key ,
-                  'counter' => 0 ,
-                  'increment' => [$key . '-' . (string) 0],
-                ];
-              }
-              else {
-                $document_types[$key]['counter'] = $document_types[$key]['counter'] + 1;
-                $document_types[$key]['increment'][] = $key . '-' . $document_types[$key]['counter'];
-              }
+    $document_types[$key] = [
+        'type' => $key,
+        'counter' => 0,
+        'increment' => [$key . '-' . (string)0],
+    ];
 
-              $l++;
-            }
-
-          }
-          elseif ($type[0] !== $types && $type[1] === 'variant' && !array_key_exists($key, $uploaded) && !$form_state->isRebuilding()) {
-            $document_types[$key] = [
-              'type' => $key ,
-              'counter' => 0 ,
-              'increment' => [$key . '-' . (string) 0],
-            ];
-            break;
-          }
-          elseif ($type[0] === $types && $type[1] === 'mandatory' && !$form_state->isRebuilding()) {
-            $document_types[$key] = [
-              'type' => $key ,
-              'counter' => 0 ,
-              'increment' => [$key . '-' . (string) 0],
-            ];
-            $l = 0;
-            foreach ($increment as $availableTypes) {
-              if ($l === 0 && !array_key_exists($key, $document_types)) {
-                $document_types[$key] = [
-                  'type' => $key ,
-                  'counter' => 0 ,
-                  'increment' => [$key . '-' . (string) 0],
-                ];
-              }
-              else {
-                $document_types[$key]['counter'] = $document_types[$key]['counter'] + 1;
-                $document_types[$key]['increment'][] = $key . '-' . $document_types[$key]['counter'];
-              }
-              $l++;
-            }
-          }
-          elseif ($type[0] !== $types && $type[1] === 'mandatory'  && !array_key_exists($key, $uploaded) && !$form_state->isRebuilding()) {
-            $document_types[$key] = [
-              'type' => $key ,
-              'counter' => 0 ,
-              'increment' => [$key . '-' . (string) 0],
-            ];
-          }
-          elseif ($type[0] === $types && $type[1] === 'optional' && !$form_state->isRebuilding()) {
-            $l = 0;
-            foreach ($increment as $availableTypes) {
-              if ($l === 0 && !array_key_exists($key, $document_types)) {
-                $document_types[$key] = [
-                  'type' => $key ,
-                  'counter' => 0 ,
-                  'increment' => [$key . '-' . (string) 0],
-                ];
-              }
-              else {
-                $document_types[$key]['counter'] = $document_types[$key]['counter'] + 1;
-                $document_types[$key]['increment'][] = $key . '-' . $document_types[$key]['counter'];
-              }
-              $l++;
-            }
-          }
-          elseif ($type[0] !== $types && $type[1] === 'optional'  && !array_key_exists($key, $uploaded) && !$form_state->isRebuilding()) {
-            $document_types[$key] = [
-              'type' => $key ,
-              'counter' => 0 ,
-              'increment' => [$key . '-' . (string) 0],
-            ];
-          }
-          elseif ($type[0] === $types && $type[1] === 'additional' && !$form_state->isRebuilding()) {
-            $l = 0;
-            foreach ($increment as $availableTypes) {
-              if ($l === 0 && !array_key_exists($key, $document_types)) {
-                $document_types[$key] = [
-                  'type' => $key ,
-                  'counter' => 0 ,
-                  'increment' => [$key . '-' . (string) 0],
-                ];
-              }
-              else {
-                $document_types[$key]['counter'] = $document_types[$key]['counter'] + 1;
-                $document_types[$key]['increment'][] = $key . '-' . $document_types[$key]['counter'];
-              }
-              $l++;
-            }
-          }
-
+    foreach ($uploaded as $types => $increment) {
+        if ($type[0] === $types && !$form_state->isRebuilding()) {
+            handleDocumentType($key, $type[1], $increment);
+        } elseif ($type[0] !== $types && !$form_state->isRebuilding()) {
+            handleDefaultDocumentType($key, $type[1]);
         }
-        $documentTypes[$type[0]] = $type[2];
-      }
+    }
+    $documentTypes[$type[0]] = $type[2];
+}
+
+function handleDocumentType($key, $type, $increment) {
+    global $document_types;
+    $l = 0;
+    foreach ($increment as $availableTypes) {
+        if ($l === 0 && !array_key_exists($key, $document_types)) {
+            $document_types[$key] = [
+                'type' => $key,
+                'counter' => 0,
+                'increment' => [$key . '-' . (string)0],
+            ];
+        } else {
+            $document_types[$key]['counter']++;
+            $document_types[$key]['increment'][] = $key . '-' . $document_types[$key]['counter'];
+        }
+        $l++;
+    }
+}
+
+function handleDefaultDocumentType($key, $type) {
+    global $document_types;
+    if ($type === 'mandatory' || $type === 'optional') {
+        if (!array_key_exists($key, $uploaded)) {
+            $document_types[$key] = [
+                'type' => $key,
+                'counter' => 0,
+                'increment' => [$key . '-' . (string)0],
+            ];
+        }
+    }
+}
