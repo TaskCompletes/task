@@ -1,29 +1,20 @@
 const endPoint = documentElement.dataset.endpoint;
-      const splitedEndpoint = endPoint.split('/');
+const splitedEndpoint = endPoint.split('/');
+let reset = false;
 
-      var reset = false;
-      if (splitedEndpoint[4].endsWith('v-0')) {
-        const fileName = file.name;
-        const some = fileName.split('.');
-        const resolveExtension = documentElement.attributes.resolve_extension.value;
-        const splitBySpace = resolveExtension.split(' ');
-        const type1 = splitBySpace[0];
-        const type2 = splitBySpace[1];
-        const splitBySlash = type1.split('/');
-        const splitBySlash1 = type2.split('/');
-        reset = true;
-        if (some[1] === splitBySlash[0]) {
-         const some2 = "/".concat(splitedEndpoint[1], '/', splitedEndpoint[2], '/', splitedEndpoint[3], '/', splitBySlash[2], '-0');
-         this.endpoint = some2;
-         console.log(some2);
-         console.log(' from first if');
-        }
-        else if (some[1] === splitBySlash1[0]) {
-          const some3 = "/".concat(splitedEndpoint[1], '/', splitedEndpoint[2], '/', splitedEndpoint[3], '/', splitBySlash1[2], '-0');
-          this.endpoint = some3;
-          console.log(some3);
-          console.log(' from second if');
-        }
-      }
+if (splitedEndpoint[4].endsWith('v-0')) {
+    const fileName = file.name;
+    const some = fileName.split('.');
+    const resolveExtension = documentElement.attributes.resolve_extension.value;
+    const [type1, type2] = resolveExtension.split(' ');
+    const [splitBySlashType1, , splitBySlashType2] = [type1, type2].map(type => type.split('/'));
+    reset = true;
 
-simplify the above code
+    const some2 = `/${splitedEndpoint[1]}/${splitedEndpoint[2]}/${splitedEndpoint[3]}/${splitBySlashType1[2]}-0`;
+    const some3 = `/${splitedEndpoint[1]}/${splitedEndpoint[2]}/${splitedEndpoint[3]}/${splitBySlashType2[2]}-0`;
+
+    this.endpoint = some[1] === splitBySlashType1[0] ? some2 : (some[1] === splitBySlashType2[0] ? some3 : undefined);
+
+    console.log(this.endpoint);
+    console.log(this.endpoint ? ' from first/second if' : undefined);
+}
