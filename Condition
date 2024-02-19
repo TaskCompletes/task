@@ -1,47 +1,29 @@
-foreach ($fileTypeArray as $key => $type) {
-    $document_types[$key] = [
-        'type' => $key,
-        'counter' => 0,
-        'increment' => [$key . '-' . (string)0],
-    ];
+const endPoint = documentElement.dataset.endpoint;
+      const splitedEndpoint = endPoint.split('/');
 
-    foreach ($uploaded as $types => $increment) {
-        if ($type[0] === $types && !$form_state->isRebuilding()) {
-            handleDocumentType($key, $type[1], $increment);
-        } elseif ($type[0] !== $types && !$form_state->isRebuilding()) {
-            handleDefaultDocumentType($key, $type[1]);
+      var reset = false;
+      if (splitedEndpoint[4].endsWith('v-0')) {
+        const fileName = file.name;
+        const some = fileName.split('.');
+        const resolveExtension = documentElement.attributes.resolve_extension.value;
+        const splitBySpace = resolveExtension.split(' ');
+        const type1 = splitBySpace[0];
+        const type2 = splitBySpace[1];
+        const splitBySlash = type1.split('/');
+        const splitBySlash1 = type2.split('/');
+        reset = true;
+        if (some[1] === splitBySlash[0]) {
+         const some2 = "/".concat(splitedEndpoint[1], '/', splitedEndpoint[2], '/', splitedEndpoint[3], '/', splitBySlash[2], '-0');
+         this.endpoint = some2;
+         console.log(some2);
+         console.log(' from first if');
         }
-    }
-    $documentTypes[$type[0]] = $type[2];
-}
+        else if (some[1] === splitBySlash1[0]) {
+          const some3 = "/".concat(splitedEndpoint[1], '/', splitedEndpoint[2], '/', splitedEndpoint[3], '/', splitBySlash1[2], '-0');
+          this.endpoint = some3;
+          console.log(some3);
+          console.log(' from second if');
+        }
+      }
 
-function handleDocumentType($key, $type, $increment) {
-    global $document_types;
-    $l = 0;
-    foreach ($increment as $availableTypes) {
-        if ($l === 0 && !array_key_exists($key, $document_types)) {
-            $document_types[$key] = [
-                'type' => $key,
-                'counter' => 0,
-                'increment' => [$key . '-' . (string)0],
-            ];
-        } else {
-            $document_types[$key]['counter']++;
-            $document_types[$key]['increment'][] = $key . '-' . $document_types[$key]['counter'];
-        }
-        $l++;
-    }
-}
-
-function handleDefaultDocumentType($key, $type) {
-    global $document_types;
-    if ($type === 'mandatory' || $type === 'optional') {
-        if (!array_key_exists($key, $uploaded)) {
-            $document_types[$key] = [
-                'type' => $key,
-                'counter' => 0,
-                'increment' => [$key . '-' . (string)0],
-            ];
-        }
-    }
-}
+simplify the above code
