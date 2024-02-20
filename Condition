@@ -1,20 +1,9 @@
-const endPoint = documentElement.dataset.endpoint;
-const splitedEndpoint = endPoint.split('/');
-let reset = false;
+git checkout bugfix/LEGDRUPAL-292-review-page_associated-doc
+error: Unable to create 'C:/Development/tna.legislation.publishing.drupal/.git/HEAD.lock': File exists.
 
-if (splitedEndpoint[4].endsWith('v-0')) {
-    const fileName = file.name;
-    const some = fileName.split('.');
-    const resolveExtension = documentElement.attributes.resolve_extension.value;
-    const [type1, type2] = resolveExtension.split(' ');
-    const [splitBySlashType1, , splitBySlashType2] = [type1, type2].map(type => type.split('/'));
-    reset = true;
-
-    const some2 = `/${splitedEndpoint[1]}/${splitedEndpoint[2]}/${splitedEndpoint[3]}/${splitBySlashType1[2]}-0`;
-    const some3 = `/${splitedEndpoint[1]}/${splitedEndpoint[2]}/${splitedEndpoint[3]}/${splitBySlashType2[2]}-0`;
-
-    this.endpoint = some[1] === splitBySlashType1[0] ? some2 : (some[1] === splitBySlashType2[0] ? some3 : undefined);
-
-    console.log(this.endpoint);
-    console.log(this.endpoint ? ' from first/second if' : undefined);
-}
+Another git process seems to be running in this repository, e.g.
+an editor opened by 'git commit'. Please make sure all processes
+are terminated then try again. If it still fails, a git process
+may have crashed in this repository earlier:
+remove the file manually to continue.
+fatal: unable to update HEAD
