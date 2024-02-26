@@ -1,4 +1,16 @@
-foreach ($bundle->getDocuments() as $document) {
-  $uploaded[$document->getType()][] = $document->getType() . '-' . $document->getIdentifier(), $document->getDocMetadata()->getDocumentStatus()->getValue(); 
-}
-i want the  values to be store in this way [si] => [[0] => 'si-0' , [1] => 'submitted'] can alter the logic
+if ($selected_option !== NULL && $selected_option !== '0') {
+
+        if (array_key_exists($selected_option, $document_types)) {
+          $document_types[$selected_option]['count'] = $document_types[$selected_option]['count'] + 1;
+          $document_types[$selected_option]['ids'][] = $selected_option . '-' . $document_types[$selected_option]['count'];
+        }
+        else {
+          $document_types[$selected_option] = [
+            'ref' => $selected_option ,
+            'count' => 0,
+            'ids' => [$selected_option . '-' . (string) 0],
+            'type' => $availableFiles[1],
+          ];
+        }
+      }
+can you simplify the above code
