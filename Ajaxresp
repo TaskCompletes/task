@@ -1,2 +1,23 @@
-array(3) { [0]=> array(3) { ["delivery_addresses"]=> array(2) { [0]=> array(4) { ["department"]=> string(39) "Department for Culture, Media and Sport" ["site"]=> string(16) "Please select..." ["address"]=> string(80) "Department for Culture, Media and Sport, 100 Parliament Street, London, SW1A 2BQ" ["quantity"]=> string(0) "" } [1]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["quantity"]=> string(0) "" ["remove_last_delivery_address"]=> string(28) "remove last delivery address" } } ["add_delivery_address_button"]=> string(20) "Add delivery address" ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(32) "Department for Work and Pensions" ["site"]=> string(16) "Please select..." ["address"]=> string(53) "Cabinet Office, 1 Horse Guards Road, London, SW1A 2HQ" ["account_code"]=> string(0) "" ["purchase_code"]=> string(0) "" } } } [1]=> array(3) { ["delivery_addresses"]=> array(2) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["quantity"]=> string(0) "" } [1]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["quantity"]=> string(0) "" ["remove_last_delivery_address"]=> string(28) "remove last delivery address" } } ["add_delivery_address_button"]=> string(20) "Add delivery address" ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["account_code"]=> string(9) "111111111" ["purchase_code"]=> string(0) "" } } } [2]=> array(3) { ["delivery_addresses"]=> array(2) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["quantity"]=> string(0) "" } [1]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["quantity"]=> string(0) "" ["remove_last_delivery_address"]=> string(28) "remove last delivery address" } } ["add_delivery_address_button"]=> string(20) "Add delivery address" ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["account_code"]=> string(9) "111111111" ["purchase_code"]=> string(0) "" } } } }
-can you extract the details of all the value in php
+foreach ($data as $entry) {
+    // Extracting delivery addresses
+    foreach ($entry['delivery_addresses'] as $address) {
+        echo "Department: " . $address['department'] . "\n";
+        echo "Site: " . $address['site'] . "\n";
+        echo "Address: " . $address['address'] . "\n";
+        echo "Quantity: " . $address['quantity'] . "\n";
+        if (isset($address['remove_last_delivery_address'])) {
+            echo "Remove Last Delivery Address: " . $address['remove_last_delivery_address'] . "\n";
+        }
+        echo "\n";
+    }
+    
+    // Extracting invoice address
+    foreach ($entry['invoice_address'] as $invoice) {
+        echo "Department: " . $invoice['department'] . "\n";
+        echo "Site: " . $invoice['site'] . "\n";
+        echo "Address: " . $invoice['address'] . "\n";
+        echo "Account Code: " . $invoice['account_code'] . "\n";
+        echo "Purchase Code: " . $invoice['purchase_code'] . "\n";
+        echo "\n";
+    }
+}
