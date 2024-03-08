@@ -1,16 +1,17 @@
-if ($selected_option !== NULL && $selected_option !== '0') {
-
-        if (array_key_exists($selected_option, $document_types)) {
-          $document_types[$selected_option]['count'] = $document_types[$selected_option]['count'] + 1;
-          $document_types[$selected_option]['ids'][] = $selected_option . '-' . $document_types[$selected_option]['count'];
-        }
-        else {
-          $document_types[$selected_option] = [
-            'ref' => $selected_option ,
-            'count' => 0,
-            'ids' => [$selected_option . '-' . (string) 0],
-            'type' => $availableFiles[1],
-          ];
-        }
+array(1) { [0]=> array(2) { ["delivery_addresses"]=> array(2) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(0) "" ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["quantity"]=> string(1) "3" } ["add_delivery_address_button"]=> string(20) "Add delivery address" } ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["account_code"]=> string(9) "111111111" ["purchase_code"]=> string(0) "" } } } }
+foreach ($deliveryDepartments as $entry) {
+      foreach ($entry['delivery_addresses'] as $address) {
+        echo $address["address"];
+        echo $address['quantity'];  
       }
-can you simplify the above code
+      foreach ($entry['invoice_address'] as $invoice) {
+        echo $invoice['account_code'], 'account_code<br>';
+        echo $invoice['address'], 'address from invoice<br>';
+      }
+      $order->setDeliveries($deliveries->getDelivery());
+      $customerOrders->addToOrder($order);
+    }
+when i use echo $address['address'] it is giving an error that is
+TypeError: Cannot access offset of type string on string in model.php
+
+can you resolve the issue
