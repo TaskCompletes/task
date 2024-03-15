@@ -1,3 +1,101 @@
-array(4) { [0]=> array(2) { ["delivery_addresses"]=> array(2) { [0]=> array(1) { ["container"]=> array(1) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(51) "Disclosure Scotland, Pacific Quay, Glasgow, G51 1YU" ["quantity"]=> string(1) "1" } } } ["add_delivery_address_button"]=> string(20) "Add delivery address" } ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(11) "invoice one" ["account_code"]=> string(9) "844100113" ["purchase_code"]=> string(0) "" } } } [1]=> array(2) { ["delivery_addresses"]=> array(2) { [0]=> array(1) { ["container"]=> array(1) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(28) "delivery two filter buttons " ["quantity"]=> string(1) "2" } } } ["add_delivery_address_button"]=> string(20) "Add delivery address" } ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(11) "invoice two" ["account_code"]=> string(9) "550000001" ["purchase_code"]=> string(0) "" } } } [2]=> array(2) { ["delivery_addresses"]=> array(2) { [0]=> array(1) { ["container"]=> array(1) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(27) "delivery one filter buttons" ["quantity"]=> string(1) "3" } } } ["add_delivery_address_button"]=> string(20) "Add delivery address" } ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(11) "invoice two" ["account_code"]=> string(9) "550000001" ["purchase_code"]=> string(0) "" } } } ["department_button_container"]=> array(2) { ["add_department_button"]=> string(29) "Add a New Delivery Department" ["remove_department_button"]=> string(22) "Remove Last Department" } }
+<?php
 
-can you write a php code to retrieve all these values
+$array = [
+    [
+        "delivery_addresses" => [
+            [
+                "container" => [
+                    [
+                        "department" => "0",
+                        "site" => "Please select...",
+                        "address" => "Disclosure Scotland, Pacific Quay, Glasgow, G51 1YU",
+                        "quantity" => "1"
+                    ]
+                ]
+            ]
+        ],
+        "add_delivery_address_button" => "Add delivery address"
+    ],
+    [
+        "delivery_addresses" => [
+            [
+                "container" => [
+                    [
+                        "department" => "0",
+                        "site" => "Please select...",
+                        "address" => "delivery two filter buttons",
+                        "quantity" => "2"
+                    ]
+                ]
+            ]
+        ],
+        "invoice_address" => [
+            [
+                "department" => "0",
+                "site" => "Please select...",
+                "address" => "invoice two",
+                "account_code" => "550000001",
+                "purchase_code" => ""
+            ]
+        ]
+    ],
+    [
+        "delivery_addresses" => [
+            [
+                "container" => [
+                    [
+                        "department" => "0",
+                        "site" => "Please select...",
+                        "address" => "delivery one filter buttons",
+                        "quantity" => "3"
+                    ]
+                ]
+            ]
+        ],
+        "invoice_address" => [
+            [
+                "department" => "0",
+                "site" => "Please select...",
+                "address" => "invoice two",
+                "account_code" => "550000001",
+                "purchase_code" => ""
+            ]
+        ]
+    ],
+    [
+        "department_button_container" => [
+            "add_department_button" => "Add a New Delivery Department",
+            "remove_department_button" => "Remove Last Department"
+        ]
+    ]
+];
+
+// Retrieving values
+foreach ($array as $key => $value) {
+    echo "Element $key:\n";
+    foreach ($value as $key2 => $value2) {
+        if (is_array($value2)) {
+            echo "  $key2:\n";
+            foreach ($value2 as $key3 => $value3) {
+                if (is_array($value3)) {
+                    foreach ($value3 as $key4 => $value4) {
+                        if (is_array($value4)) {
+                            echo "    $key4:\n";
+                            foreach ($value4 as $key5 => $value5) {
+                                echo "      $key5: $value5\n";
+                            }
+                        } else {
+                            echo "    $key3: $value3\n";
+                        }
+                    }
+                } else {
+                    echo "  $key2: $value2\n";
+                }
+            }
+        } else {
+            echo "$key: $value\n";
+        }
+    }
+    echo "\n";
+}
+?>
