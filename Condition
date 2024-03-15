@@ -1,17 +1,3 @@
-array(1) { [0]=> array(2) { ["delivery_addresses"]=> array(2) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(0) "" ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["quantity"]=> string(1) "3" } ["add_delivery_address_button"]=> string(20) "Add delivery address" } ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(72) "Scottish Government, Europa Building, 450 Argyle Street, Glasgow, G2 8LG" ["account_code"]=> string(9) "111111111" ["purchase_code"]=> string(0) "" } } } }
-foreach ($deliveryDepartments as $entry) {
-      foreach ($entry['delivery_addresses'] as $address) {
-        echo $address["address"];
-        echo $address['quantity'];  
-      }
-      foreach ($entry['invoice_address'] as $invoice) {
-        echo $invoice['account_code'], 'account_code<br>';
-        echo $invoice['address'], 'address from invoice<br>';
-      }
-      $order->setDeliveries($deliveries->getDelivery());
-      $customerOrders->addToOrder($order);
-    }
-when i use echo $address['address'] it is giving an error that is
-TypeError: Cannot access offset of type string on string in model.php
+array(4) { [0]=> array(2) { ["delivery_addresses"]=> array(2) { [0]=> array(1) { ["container"]=> array(1) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(51) "Disclosure Scotland, Pacific Quay, Glasgow, G51 1YU" ["quantity"]=> string(1) "1" } } } ["add_delivery_address_button"]=> string(20) "Add delivery address" } ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(11) "invoice one" ["account_code"]=> string(9) "844100113" ["purchase_code"]=> string(0) "" } } } [1]=> array(2) { ["delivery_addresses"]=> array(2) { [0]=> array(1) { ["container"]=> array(1) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(28) "delivery two filter buttons " ["quantity"]=> string(1) "2" } } } ["add_delivery_address_button"]=> string(20) "Add delivery address" } ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(11) "invoice two" ["account_code"]=> string(9) "550000001" ["purchase_code"]=> string(0) "" } } } [2]=> array(2) { ["delivery_addresses"]=> array(2) { [0]=> array(1) { ["container"]=> array(1) { [0]=> array(4) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(27) "delivery one filter buttons" ["quantity"]=> string(1) "3" } } } ["add_delivery_address_button"]=> string(20) "Add delivery address" } ["invoice_address"]=> array(1) { [0]=> array(5) { ["department"]=> string(1) "0" ["site"]=> string(16) "Please select..." ["address"]=> string(11) "invoice two" ["account_code"]=> string(9) "550000001" ["purchase_code"]=> string(0) "" } } } ["department_button_container"]=> array(2) { ["add_department_button"]=> string(29) "Add a New Delivery Department" ["remove_department_button"]=> string(22) "Remove Last Department" } }
 
-can you resolve the issue
+can you write a php code to retrieve all these values
