@@ -1,13 +1,22 @@
-$data = [
-    // Your data array goes here
-];
+<?php
 
-$address = "1 Pennyburn Road, Kilwinning, Ayrshire, KA13 6SA"; // Example address
+namespace Drupal\file_upload\Element;
 
-foreach ($data as $department => $details) {
-    foreach ($details['sites'] as $site => $siteAddress) {
-        if ($siteAddress === $address) {
-            echo "Department: $department, Site: $site\n";
-        }
-    }
+
+/**
+ * Provides a custom file upload form element.
+ * @FormElement("box_model")
+ */
+class DialogModel extends \Drupal\Core\Render\Element\Html {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getInfo() {
+    return [
+      '#theme' => 'box_model',
+    ];
+  }
+
 }
+this is the custom field i created in drupal now i am wnat to add some custom attributes to it how can i do that
