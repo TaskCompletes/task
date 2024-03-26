@@ -2,21 +2,29 @@
 
 namespace Drupal\file_upload\Element;
 
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Provides a custom file upload form element.
+ *
+ *
  * @FormElement("box_model")
  */
-class DialogModel extends \Drupal\Core\Render\Element\Html {
+class DialogModel extends \Drupal\Core\Render\Element\RenderElement {
 
   /**
    * {@inheritdoc}
    */
   public function getInfo() {
-    return [
-      '#theme' => 'box_model',
-    ];
-  }
 
+    $info = [
+      '#theme' => 'box_model',
+      '#message' => '',
+      '#showCloseButton' => FALSE,
+      '#attributes' => [],
+    ];
+
+    return $info;
+  }
 }
-this is the custom field i created in drupal now i am wnat to add some custom attributes to it how can i do that
+this is the custom field i created in drupal can you just create a twig to display all the data
