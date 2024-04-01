@@ -1,12 +1,5 @@
-{# File: box-model.html.twig #}
+$finalExtractedNumbers .= '<li>' . $numberExpansion . $numberValue . '</li><li class="number-error">' . $errorMessage->value . '</li>';
 
-{# Check if the message is not empty #}
-{% if message %}
-  <div class="box-model">
-    <p>{{ message }}</p>
-    {# Check if the close button should be shown #}
-    {% if showCloseButton %}
-      <button class="close-button">Close</button>
-    {% endif %}
-  </div>
-{% endif %}
+this printng in this way <li>UK Statutory Instrument (SI)1</li><li class="number-error">Number has already been registered</li>
+
+can you make it print as raw html i am using twig template to display it
