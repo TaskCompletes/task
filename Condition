@@ -1,5 +1,1 @@
-$finalExtractedNumbers .= '<li>' . $numberExpansion . $numberValue . '</li><li class="number-error">' . $errorMessage->value . '</li>';
-
-this printng in this way <li>UK Statutory Instrument (SI)1</li><li class="number-error">Number has already been registered</li>
-
-can you make it print as raw html i am using twig template to display it
+array(3) { [0]=> array(1) { ["department"]=> string(0) "" } [1]=> array(2) { ["department"]=> string(0) "" ["remove_button"]=> string(17) "Remove department" } [2]=> array(2) { ["department"]=> string(0) "" ["remove_button"]=> string(17) "Remove department" } } can you make this as array in php
