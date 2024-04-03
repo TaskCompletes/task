@@ -1,7 +1,14 @@
+$errorList = array_map(function ($check) {
+          return is_null($check->getReason()) ?
+            $check->getSubmitterDescription() :
+            $check->getSubmitterDescription() . $check->getReason();
+        }, $checksWithErrors);
+        $message = $this->t('These verification checks have failed:');
+
 $error['basic_error'][] = [
           '#theme' => 'item_list',
           '#list_type' => 'ul',
           '#items' => $errorList, 
         ];
 
-how to add class to each list item
+how to add class to each list item in drupal
