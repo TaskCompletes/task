@@ -1,1 +1,7 @@
-array(3) { [0]=> array(1) { ["department"]=> string(0) "" } [1]=> array(2) { ["department"]=> string(0) "" ["remove_button"]=> string(17) "Remove department" } [2]=> array(2) { ["department"]=> string(0) "" ["remove_button"]=> string(17) "Remove department" } } can you make this as array in php
+$error['basic_error'][] = [
+          '#theme' => 'item_list',
+          '#list_type' => 'ul',
+          '#items' => $errorList, 
+        ];
+
+how to add class to each list item
