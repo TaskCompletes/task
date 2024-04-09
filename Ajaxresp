@@ -1,7 +1,23 @@
-public function validateForm(array &$form, FormStateInterface $form_state): void {
-     $form_state->set('add_superseded', TRUE);
+public function validateForm(array &$form, FormStateInterface $form_state): ?array {
+    $buttonClicked = $form_state->getTriggeringElement();
+
+    // Only perform validation when 'next' is clicked.
+    if ($buttonClicked['#name'] !== 'next') {
+      return null;
+    }
+
+    if (in_array('sifted_date', $this->fieldsAdded)) {
+      $this->validateSiftedDate($form_state);
+    }
+    
+    if (in_array('superseded', $this->fieldsAdded) || in_array('title_english', $this->fieldsAdded)) {
+      $this->validateSuperseded($form_state, $form);
+    }
+    //
+     // $form_state->set('add_superseded', TRUE);
+     // $form['layout_container']['superseded_fieldset']['superseded']['#attributes']['class'] = [];
+     // return $form;
+    // $form_state->setRebuild();
+    // \Drupal::logger('some_channel_name')->warning('<pre><code>'. print_r($isrebuilding,TRUE) .'</code></pre>');
+   // \Drupal::logger('rebuilding somethings some')->error((string) $form_state->getTemporaryValue('add_superseded'));
   }
-public function buildForm(array &$form, FormStateInterface $form_state): void {
-     $form_state->get('add_superseded');
-  }
-while i am printing of add superseded in build form after validation it is giving false
