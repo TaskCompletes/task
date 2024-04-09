@@ -1,22 +1,7 @@
-function tna_submission_form_FORM_ID_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-
-  // Modification for the form with the given form ID goes here. For example, if
-  // FORM_ID is "user_register_form" this code would run only on the user
-  // registration form.
-  // Add a checkbox to registration form about agreeing to terms of use.
-  \Drupal::logger('rebuilding some')->error((string) $form_state->has('add_superseded'));
-  \Drupal::logger('rebuilding some')->error((string) 'it is comming');
-  if ($form_id === 'tna_legislation_publishing_submission_secondary_registration_page_form') {
-    $form['layout_container']['superseded_fieldset']['superseded'] = [
-      '#type' => 'radios',
-      '#title' => "Does this SI supersede the draft legislation <a href = @url>@title</a> published to legislation.gov.uk?",
-      '#options' => [
-        'yes' => 'Yes',
-        'No' => 'no',
-      ],
-    ];
+public function validateForm(array &$form, FormStateInterface $form_state): void {
+     $form_state->set('add_superseded', TRUE);
   }
-  
-}
-
-this code is not at all calling and my module name is tna_submission
+public function buildForm(array &$form, FormStateInterface $form_state): void {
+     $form_state->get('add_superseded');
+  }
+while i am printing of add superseded in build form after validation it is giving false
