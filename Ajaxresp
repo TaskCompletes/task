@@ -1,23 +1,20 @@
-public function validateForm(array &$form, FormStateInterface $form_state): ?array {
-    $buttonClicked = $form_state->getTriggeringElement();
+$this->form['layout_container']['metadata-box']['missed_subsidiary'] = [
+        '#type' => 'radios',
+        '#title' => $this->t('Are there any subsidiary number requests we have missed?'),
+        '#options' => [
+          'yes' => 'Yes',
+          'no' => 'No'
+        ],
+        '#default_value' => 'no'
+      ];
+$this->form['layout_container']['metadata-box']['missed_subsidiary_checkbox'] = [
+      '#type' => 'checkboxes',
+      '#options' => $this->NumbersTest(TRUE),
+      '#states' => [
+        'visible' => [
+          ":input[name = 'missed_subsidiary']" => ['value' => 'yes']
+        ]
+      ]
+    ];
 
-    // Only perform validation when 'next' is clicked.
-    if ($buttonClicked['#name'] !== 'next') {
-      return null;
-    }
-
-    if (in_array('sifted_date', $this->fieldsAdded)) {
-      $this->validateSiftedDate($form_state);
-    }
-    
-    if (in_array('superseded', $this->fieldsAdded) || in_array('title_english', $this->fieldsAdded)) {
-      $this->validateSuperseded($form_state, $form);
-    }
-    //
-     // $form_state->set('add_superseded', TRUE);
-     // $form['layout_container']['superseded_fieldset']['superseded']['#attributes']['class'] = [];
-     // return $form;
-    // $form_state->setRebuild();
-    // \Drupal::logger('some_channel_name')->warning('<pre><code>'. print_r($isrebuilding,TRUE) .'</code></pre>');
-   // \Drupal::logger('rebuilding somethings some')->error((string) $form_state->getTemporaryValue('add_superseded'));
-  }
+this missed_subsidiary_checkbox is not hiding while the radio button is selected as no
