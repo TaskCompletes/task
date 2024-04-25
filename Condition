@@ -1,14 +1,4 @@
-$errorList = array_map(function ($check) {
-          return is_null($check->getReason()) ?
-            $check->getSubmitterDescription() :
-            $check->getSubmitterDescription() . $check->getReason();
-        }, $checksWithErrors);
-        $message = $this->t('These verification checks have failed:');
-
-$error['basic_error'][] = [
-          '#theme' => 'item_list',
-          '#list_type' => 'ul',
-          '#items' => $errorList, 
-        ];
-
-how to add class to each list item in drupal
+1.	Longer code coverage: when I am using laptop, I was able to see only around 35 lines of codes but with this monitor I can see around 70 lines of codes.
+2.	Working with developer tool: while working with browser developer tool I can be more productive with this monitor I can open a page on monitor, and I can inspect element from laptop which makes easier to see how the element are rendered.
+3.	Going to previous commit: if I make mistake on previous commit it is now easier to identify with the monitor I can open current version on monitor and last commit on laptop which makes it easier to identify potential cauise because of this I am able to save plenty of time
+please make this sentences more professional
