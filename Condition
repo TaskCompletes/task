@@ -1,4 +1,5 @@
-1.	Longer code coverage: when I am using laptop, I was able to see only around 35 lines of codes but with this monitor I can see around 70 lines of codes.
-2.	Working with developer tool: while working with browser developer tool I can be more productive with this monitor I can open a page on monitor, and I can inspect element from laptop which makes easier to see how the element are rendered.
-3.	Going to previous commit: if I make mistake on previous commit it is now easier to identify with the monitor I can open current version on monitor and last commit on laptop which makes it easier to identify potential cauise because of this I am able to save plenty of time
-please make this sentences more professional
+1. Enhanced code coverage: With this monitor, my coding workspace has expanded significantly, allowing me to view approximately 70 lines of code compared to the 35 lines on my laptop, thereby facilitating a more comprehensive analysis and understanding of the codebase.
+
+2. Improved developer tool utilization: Utilizing the browser developer tools has become notably more efficient with the integration of this monitor. Now, I can seamlessly navigate between the monitor-displayed webpage and my laptop's developer tools, streamlining the process of element inspection and enhancing my productivity in assessing rendering issues.
+
+3. Streamlined revision management: The integration of this monitor has notably streamlined the process of navigating through previous commits. By displaying the current version on the monitor while accessing the last commit on my laptop, I can efficiently identify and rectify mistakes, significantly reducing the time required for debugging and revision management.
